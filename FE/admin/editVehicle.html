@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Viet Holiday</title>
+        <link rel="stylesheet" href="CRUD.css">
+    </head>
+
+    <header class="header"> 
+        <div class="logo">
+            <img class="header-logo" src="../image/logo.png" alt="Logo">
+        </div>
+
+        <nav class="navbar">
+            <a href="admin.html">Home</a>
+            <a href="adminDriver.html">Driver</a>
+            <a href="adminVehicle.html">Vehicle</a>
+            <a href="adminUser.html">User</a>
+        </nav>
+
+        <div class="admin-account-container">
+            <select name="admin-account" id="admin-account">
+                <option value="admin-account" selected disabled>Admin</option>
+                <option value="logOut">Log Out</option>
+            </select>
+        </div>
+    </header>
+    
+    <body>
+        <div class="container-general">
+            <div class="form-container">  
+                <form action="">
+                    <h2>Update Driver</h2>
+
+                    <div class="message-container">
+                        <p class="success-message"></p>
+                        <p class="error-message"></p>
+                    </div>
+                    
+                    <label for="brand">Brand:</label>
+                    <input type="text" id="brand" required pattern=".{1,}">
+
+                    <label for="name">Name:</label>
+                    <input  type="text" id="name"required pattern=".{1,}">
+
+                    <label for="seat">Seats:</label>
+                    <input  type="text" id="seat"required pattern=".{1,}">
+
+                    <label for="colour">Colour:</label>
+                    <input type="text" id="colour" required pattern=".{1,}">
+
+                    <label for="plate">Plate:</label>
+                    <input  type="text" id="plate" required pattern=".{1,}">
+                    
+                    <div class="button-group">
+                        <button type="button" onclick="window.location.href='adminVehicle.html'" class="go-back-button">Go back</button>
+                        <button type="submit" name="create-button" value="create-button"class="create-button">Edit</button>
+                    </div>
+                </form>
+            </div>
+        </div> 
+        
+        <script src="adminScript.js"></script>
+        <script>
+            const urlParams = new URLSearchParams(window.location.search);
+            const vehicleId = urlParams.get('id');
+            vehicleAutoFillForm(vehicleId);
+            
+            let form = document.querySelector('form');
+            form.addEventListener('submit', (event) => {
+                event.preventDefault();
+                let name = document.querySelector('#name').value;
+                let brand = document.querySelector('#brand').value;
+                let seats = document.querySelector('#seat').value;
+                let colour = document.querySelector('#colour').value;
+                let plate = document.querySelector('#plate').value;
+
+                const updatedVehicle = {
+                    id : vehicleId,
+                    name: name, 
+                    brand: brand, 
+                    color: colour, 
+                    plate: plate, 
+                    seatNumber: seats
+                };
+
+                editVehicle(updatedVehicle);
+            });
+
+            const adminAccountSelect = document.getElementById("admin-account");
+            adminAccountSelect.addEventListener("change", function() { logOut(adminAccountSelect.value) });
+        </script>
+    </body>
+
+    <footer class="footer">
+        <span class="group-id">Group 18</span>  
+    </footer>
+</html>

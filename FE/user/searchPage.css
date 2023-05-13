@@ -1,0 +1,223 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@100;200;400;700&display=swap');
+
+:root {
+    --img-size: 150px
+}
+
+*{
+    box-sizing: border-box;
+    margin:0;
+    padding:0;
+    border: 0;
+    font-family: 'Poppins', sans-serif;
+    transition: top 0.3s;
+}
+
+body {
+    height: fit-content;
+}
+
+.header{
+    background-color: white;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    padding: 20px 7.5%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    z-index: 100;
+}
+
+.header .header-logo {
+    height: auto;
+    width: 150px;
+}
+
+.navbar a {
+    position: relative;
+    color: black;
+    font-size: 16px;
+    font-weight: 550;
+    text-decoration: none;
+    margin-right: 30px;
+}
+
+li {
+    list-style-type: none;
+    display: inline-block;
+}
+
+li > a {
+    color: #333;
+    text-decoration: none;
+    display: inline-block;
+    position: relative;
+  }
+  
+li > a::after {
+    content: "";
+    display: block;
+    margin: auto;
+    height: 3px;
+    width: 0;
+    top: 5px;
+    background: transparent;
+    transition: 0.3s;
+    transform: translateY(10px);
+}
+  
+li > a:hover::after, li > a.active-nav::after {
+    width: 100%;
+    background: black;
+    transform: translateY(0px);
+    opacity: 1;
+}
+
+.signin-btn {
+    background-color: lightgrey;
+    padding: 10px;
+    border: none;
+    outline: none;
+    border-radius: 10px;
+    font-size: 12px;
+    font-weight: bold;
+    letter-spacing: 1px;
+}
+
+.signin-btn:hover {
+    cursor: pointer;
+}
+
+
+#user-account {
+    border: none;
+    outline: none;
+    font-size: 16px;
+    font-weight: bold;
+}
+
+#user-account option {
+    font-size: 16px;
+    font-weight: bold;
+    background-color: #FFCD6B;
+    color: black;
+}
+
+.container-general{
+    background-color: rgba(255, 205, 107, 0.5);
+    margin-top: 7%;
+    height: fit-content;
+    position: relative;
+    padding: 10px 2.5%;
+}
+
+.vehicle {
+    display: inline-block;
+    width: 30%;
+    height: 280px;
+    box-sizing: border-box;
+    padding: 20px;
+    margin: 10px 1.5%;
+    background-color: white;
+    border: 1px solid #FFCD6B;
+    border-radius: 15px;
+    font-size: 18px;
+}
+
+.attribute-name {
+    font-weight: bold;
+}
+
+.booking-button {
+    width: 80px;
+    padding: 10px;
+    border: none;
+    outline: none;
+    border-radius: 8px;
+    font-size: 12px;
+    font-weight: bold;
+    margin-top: 70px;
+    background-color: #FFCD6B;
+    color: black;
+}
+
+.footer {
+    height: fit-content;
+    display: flex;
+    flex-direction: column;
+    background: #474745;
+    padding: 25px 5%;
+    color: white;
+}
+.footer-top {
+    display: flex;
+
+}
+
+.footer-top h2 {    
+    font-size: 36px;
+    font-weight: 700;
+    letter-spacing: 0.5px;
+}
+
+.footer-top input {
+    width: 300px;
+    padding: 10px;
+    margin-top: 10px;
+    background: black;
+    border: none;
+    outline: none;
+}
+
+.footer-top button {
+    width: 100px;
+    padding: 10px;
+    margin-top: 10px;
+    background: #FFCD6B;
+    color: white;
+    border: none;
+    outline: none;
+}
+
+.footer-top {
+    display: flex;
+    flex-direction: row;
+}
+
+.subscribe-container {
+    width: 100%;
+    text-align: left;
+}
+
+.logo-container {
+    text-align: right;
+    display: flex;
+    flex-direction: column;
+}
+
+.footer-bottom {
+    display: flex;
+    flex-direction: row;
+    margin-top: 25px;
+
+}
+
+.footer-contact-info {
+width: 100%;
+color: white;
+text-align: center;
+border-right: 1px solid gray;  
+}
+
+.working-hours {
+border-right: none;
+}
+
+.group-id {
+    margin: 25px 0 0;
+    text-align: center;
+    font-style: italic;
+    text-align: center;
+}

@@ -1,0 +1,407 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@100;200;400;700&display=swap');
+
+:root {
+    --img-size: 150px
+}
+
+*{
+    box-sizing: border-box;
+    margin:0;
+    padding:0;
+    border: 0;
+    font-family: 'Poppins', sans-serif;
+    transition: top 0.3s;
+}
+
+body {
+    height: 100vh;
+}
+
+.header{
+    background-color: white;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    padding: 20px 7.5%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    z-index: 100;
+}
+
+.header .header-logo {
+    height: auto;
+    width: 150px;
+}
+
+.navbar a {
+    position: relative;
+    color: black;
+    font-size: 16px;
+    font-weight: 550;
+    text-decoration: none;
+    margin-right: 30px;
+}
+
+li {
+    list-style-type: none;
+    display: inline-block;
+}
+
+li > a {
+    color: #333;
+    text-decoration: none;
+    display: inline-block;
+    position: relative;
+  }
+  
+  li > a::after {
+    content: "";
+    display: block;
+    margin: auto;
+    height: 3px;
+    width: 0;
+    top: 5px;
+    background: transparent;
+    transition: 0.3s;
+    transform: translateY(10px);
+  }
+  
+  li > a:hover::after, li > a.active-nav::after {
+    width: 100%;
+    background: black;
+    transform: translateY(0px);
+    opacity: 1;
+  }
+
+.signin-btn {
+    background-color: lightgrey;
+    padding: 10px;
+    border: none;
+    outline: none;
+    border-radius: 10px;
+    font-size: 12px;
+    font-weight: bold;
+    letter-spacing: 1px;
+}
+
+.signin-btn:hover {
+    cursor: pointer;
+}
+
+#user-account {
+    font-size: 16px;
+    font-weight: bold;
+    color: black
+}
+
+#user-account option {
+    font-size: 16px;
+    font-weight: bold;
+    background-color: #FFCD6B;
+    color: black;
+}
+
+.container-general{
+    background: url('../image/background.jpg');
+    background-repeat: no-repeat;
+    background-size: cover;
+    height: 95vh;
+    margin-top: -10px;
+    position: relative;
+
+}
+
+@media only screen and (max-width: 767px) {
+    .container-general {
+       background-image: url('../image/background.jpg');
+    }
+  }
+
+.container {
+    width: 25%;
+    padding: 20px;
+    margin-top: 200px;
+    text-align: left;
+    background-color: rgba(255, 205, 107, 0.5);
+    border: none;
+    border-radius: 10px;
+    margin-left: 70px;
+    position: absolute;
+}
+
+.welcome-container {
+    margin-bottom: 20px;
+}
+
+.container div {
+    margin-bottom: 10px;
+}
+
+.welcome {
+    font-size: 32px;
+    font-weight: 700;
+}
+
+#pick-up-location {
+    width: 100%;
+    padding: 10px;
+    border: none;
+    border-radius: 5px;
+}
+
+#destination {
+    width: 100%;
+    padding: 10px;
+    border: none;
+    border-radius: 5px;
+}
+
+.time-container {
+    display: flex;
+    flex-direction: row;
+}
+
+.date {
+    width: 50%;
+    text-align: left;
+}
+
+.time {
+    width: 40%;
+    text-align: left;
+}
+
+.pick-up-date{
+    width: 80%;
+    padding: 10px;
+    border: none;
+    border-radius: 5px;
+}
+
+.pick-up-time {
+    width: 80%;
+    padding: 10px;
+    border: none;
+    border-radius: 5px;
+}
+
+.more-info-container {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+}
+
+.more-info-container  div {
+    display: inline-block;
+    width: calc(100% / 3);
+    margin-right: 10px;
+    margin-bottom: 10px;
+    vertical-align: top;
+}
+
+.note {
+    font-size: 12px;
+    font-style: italic;
+}
+
+.seats, .children, .adult{
+    display: flex;
+    flex-direction: column;
+    align-items: left; 
+}
+
+#seats-type {
+    width: 250%;
+    padding: 5px;
+    border: none;
+    border-radius: 5px;
+}
+
+.children-input, .adult-input {
+    width: 200%;
+    padding: 5px;
+    border: none;
+    border-radius: 5px;
+}
+
+.container .search-button {
+    width: 50%;
+    margin-left: 25%;
+    margin-right: 25%;
+    margin-top: 30px;
+    padding: 10px;
+    justify-content: center;
+    align-items: center;
+    background-color: #24a0ed;
+    color: white;
+    border: 2px solid #24a0ed;
+    border-radius: 10px;
+    font-size: 12px;
+    font-weight: bold;
+    letter-spacing: 1px;
+}
+
+.container .search-button:hover {
+    background-color: white;
+    color: #24a0ed;
+    border: 2px solid #24a0ed;
+}
+
+.slogan {
+    position: absolute;
+    top: 30%; 
+    left: 35%;
+    right: 0;
+    margin-left: 50px;
+    text-align: left;
+}
+
+.slogan-text {
+    display: inline-block;
+    white-space: nowrap;
+    position: relative;
+    font-size: 56px;
+    font-weight: 700;
+    color: black;
+    top: -50px; 
+}
+
+.slogan-text-2 {
+    display: inline-block;
+    white-space: nowrap;
+    position: relative;
+    font-size: 18px;
+    color: black;
+    top: -50px; 
+}
+
+.body-container {
+    margin: 25px 15px;
+}
+
+.body-container .h2 {
+    position: absolute;
+    width: 387px;
+    height: 99px;
+    left: 36px;
+    top: 30px;
+    font-family: 'Poppins';
+    font-style: normal;
+    font-weight: 600;
+    font-size: 40px;
+    line-height: 60px;
+    display: flex;
+    align-items: center;
+    color: #000000;
+}
+.card-container{
+    display: flex;
+    flex-direction: row;
+    margin-top: 20px;
+    justify-content: center;
+    gap: 50px;
+}
+
+.card-container .cus-sup {
+    width: var(--img-size);
+}
+
+.card-container .bus-travel {
+    width: var(--img-size);
+}
+
+.card-container .care {
+    width: var(--img-size);
+}
+
+.card {
+    width: 25%;
+    background: #FFCD6B;
+    padding: 10px;
+    border-radius: 10px;
+}
+
+.card h2 {
+    font-weight: bold;
+}
+
+.footer {
+    height: fit-content;
+    display: flex;
+    flex-direction: column;
+    background: #474745;
+
+    padding: 25px 5%;
+    color: white;
+}
+.footer-top {
+    display: flex;
+
+}
+
+.footer-top h2 {    
+    font-size: 36px;
+    font-weight: 700;
+    letter-spacing: 0.5px;
+}
+
+.footer-top input {
+    width: 300px;
+    padding: 10px;
+    margin-top: 10px;
+    background: white;
+    border: none;
+    outline: none;
+}
+
+.footer-top button {
+    width: 100px;
+    padding: 10px;
+    margin-top: 10px;
+    background: #FFCD6B;
+    color: white;
+    border: none;
+    outline: none;
+}
+
+.footer-top {
+    display: flex;
+    flex-direction: row;
+}
+
+.subscribe-container {
+    width: 100%;
+    text-align: left;
+}
+
+.logo-container {
+    text-align: right;
+    display: flex;
+    flex-direction: column;
+}
+
+.footer-bottom {
+    display: flex;
+    flex-direction: row;
+    margin-top: 25px;
+
+}
+
+.footer-contact-info {
+width: 100%;
+color: white;
+text-align: center;
+border-right: 1px solid gray;  
+}
+
+.working-hours {
+border-right: none;
+}
+
+.group-id {
+    margin: 25px 0 0;
+    text-align: center;
+    font-style: italic;
+    text-align: center;
+}

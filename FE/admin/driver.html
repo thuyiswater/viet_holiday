@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Viet Holiday</title>
+        <link rel="stylesheet" href="driver.css">
+    </head>
+
+    <header class="header"> 
+        <div class="logo">
+            <img class="header-logo" src="../image/logo.png" alt="Logo">
+        </div>
+
+        <nav class="navbar">
+            <a href="home.html">Home</a>
+        </nav>
+
+        <div class="driver-account-container">
+            <select name="driver-account" id="driver-account">
+                <option value="driver-account" selected disabled>Driver</option>
+                <option value="logOut">Log Out</option>
+            </select>
+        </div>
+    </header>
+    
+    <body>
+        <div class="container-general">
+            <div class="left-panel">
+                <h4>Schedule</h4>
+                <table class="schedule-table"></table>
+            </div>
+            
+            <div class="right-panel">
+            </div>
+        </div>       
+        
+        <script src="adminScript.js"></script>
+        <script>
+            const searchParams = new URLSearchParams(window.location.search);
+            const driverId = searchParams.get('driver.id');
+
+            fetchDriverMode(driverId);
+            
+            const driverAccountSelect = document.getElementById("driver-account");
+            driverAccountSelect.addEventListener("change", function() { logOut(driverAccountSelect.value) });
+        </script>
+    </body>
+
+    <footer class="footer">
+        <span class="group-id">Group 18</span>  
+    </footer>
+</html>

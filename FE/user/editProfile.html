@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Viet Holiday</title>
+    <link rel="stylesheet" href="login.css">
+</head>
+<body>
+    <header class="header"> 
+        <div class="logo">
+            <img class="header-logo" src="../image/logo.png" alt="Logo">
+        </div>
+
+        <nav class="navbar">
+            <a href="home.html">Home</a>
+            <a href="about_us.html">About Us</a>
+            <a href="booking.html">Booking</a>
+            <a href="vehicle.html"> Vehicles</a>
+        </nav>  
+
+        <div class="button-group">
+            <button id="signin-btn">Sign In</button>
+        </div>
+    </header>
+
+    <div class="container">
+        <div class="sign-up">
+            <form action="">
+                <h1>Edit Profile</h1>
+
+                <div class="message-container">
+                    <p class="success-message"></p>
+                    <p class="error-message"></p>
+                </div>
+
+                <div class="infield">
+                    <input type="text" id="name" placeholder="Name">
+                    <label></label>
+                </div>
+                <div class="infield">
+                    <input type="text" id="phone" placeholder="Phone">
+                    <label></label>
+                </div>
+                <div class="infield">
+                    <input type="text" id="email" placeholder="Email" disabled>
+                    <label></label>
+                </div>
+                <div class="infield">
+                    <input type="text" id="password" placeholder="Password">
+                    <label></label>
+                </div>
+                <div class="infield">
+                    <input type="text" id="confirm-password" placeholder="Confirm Password">
+                    <label></label>
+                </div>
+                <button >Edit</button>
+            </form>
+        </div>
+
+        <div class="left">
+            <div class="left-panel">
+                <div class="avatar-upload">
+                    <div class="avatar-preview">
+                      <img src="#" alt="Avatar Preview">
+                    </div>
+                    <div class="avatar-edit">
+                      <input type='file' id="imageUpload" accept=".png, .jpg, .jpeg" />
+                      <label for="imageUpload" hidden>Choose Image</label>
+                    </div>
+                  </div>
+                  
+            </div>
+        </div>
+
+    </div>
+
+    <script src="userScript.js"></script>
+    <script>
+        const form = document.querySelector('form');
+        const urlParams = new URLSearchParams(window.location.search);
+        const userId = urlParams.get('user.id');
+
+        token(userId);
+        autoFillUserForm(userId);
+
+        form.addEventListener('submit', (event) => { editUser(userId, event) });
+    </script>
+</body>
+</html>

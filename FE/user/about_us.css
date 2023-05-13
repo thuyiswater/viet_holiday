@@ -1,0 +1,214 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@100;200;400;700&display=swap');
+
+*{
+    box-sizing: border-box;
+    margin:0;
+    padding:0;
+    border: 0;
+    font-family: 'Poppins', sans-serif;
+    transition: top 0.3s;
+}
+
+body {
+    height: 100vh;
+}
+
+.header{
+    background-color: white;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    padding: 20px 7.5%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    z-index: 100;
+}
+
+.header .header-logo {
+    height: auto;
+    width: 150px;
+}
+
+.navbar a {
+    position: relative;
+    color: black;
+    font-size: 16px;
+    font-weight: 550;
+    text-decoration: none;
+    margin-right: 30px;
+}
+
+li {
+    list-style-type: none;
+    display: inline-block;
+}
+
+li > a {
+    color: #333;
+    text-decoration: none;
+    display: inline-block;
+    position: relative;
+  }
+  
+li > a::after {
+    content: "";
+    display: block;
+    margin: auto;
+    height: 3px;
+    width: 0;
+    top: 5px;
+    background: transparent;
+    transition: 0.3s;
+    transform: translateY(10px);
+}
+  
+li > a:hover::after, li > a.active-nav::after {
+    width: 100%;
+    background: black;
+    transform: translateY(0px);
+    opacity: 1;
+}
+
+.sign-up-button {
+    padding: 10px;
+    border: 1px solid lightgray;
+    border-radius: 5px;
+    font-size: 12px;
+    font-weight: bold;
+    letter-spacing: 1px;
+}
+
+.sign-up-button:hover {
+    background-color: gray;
+    color: white;
+}
+
+.sign-in-button {
+    margin-left: 20px;
+    padding: 10px;
+    background-color: #FFCD6B;
+    border: 1px solid #FFCD6B;
+    border-radius: 5px;
+    font-size: 12px;
+    font-weight: bold;
+    letter-spacing: 1px;
+}
+
+.sign-in-button:hover {
+    background-color: #9c7d3f;
+    color: white;
+}
+
+.signin-btn {
+    background-color: lightgrey;
+    padding: 10px;
+    border: none;
+    outline: none;
+    border-radius: 10px;
+    font-size: 12px;
+    font-weight: bold;
+    letter-spacing: 1px;
+}
+
+.signin-btn:hover {
+    cursor: pointer;
+}
+
+#user-account {
+    border: none;
+    outline: none;
+    font-size: 16px;
+    font-weight: bold;
+}
+
+#user-account option {
+    font-size: 16px;
+    font-weight: bold;
+    background-color: #FFCD6B;
+    color: black;
+}
+
+.intro {
+    margin-top: 200px;
+    font-weight: 505;
+    font-size: 36px;
+    line-height: 54px;
+    text-align: center;
+    color: #000000;
+}
+
+.container {
+    text-align: center;
+    margin-top: 10px;
+    padding: 0 200px;
+}
+
+.background .car1 {
+    object-fit: cover;
+    width: 1515px;
+    height: 540px;
+    display: block;
+    margin: 30px auto;
+}
+
+.box {
+    margin-top: 50px;
+    height: 150px;
+    padding-left: 80px;
+    text-align: left;
+    font-size: 14px;
+}
+
+.car2 {
+    width: 453px;
+    height: 340px;
+    margin-left: 100px;
+    margin-top: 20px;
+    float: left;
+}
+
+.box2 {
+    display: grid;
+    align-items: center; 
+    grid-template-columns: 1fr 1fr;
+}
+
+.safety-container {
+    text-align: right;
+    /* margin-top: 10px; */
+    margin-right: 50px;
+}
+
+.box3 {
+    text-align: center;
+    margin-top: 100px;
+}
+
+.footer-img {
+    position: relative;
+    object-fit: cover;
+    width: 1515px;
+    height: 540px;
+    display: block;
+    margin-top: 50px;
+    filter: opacity(80%);
+    filter: contrast(-10%);
+    filter: saturate(200%);
+}
+
+.contact {
+    background-color: #FB7800;
+    width: 137px;
+    height: 38px;
+    border-radius: 5px;
+    position: absolute;
+    transform: translate(200px , -300px);
+    z-index: 3;
+}
+
+.group-id {
+    text-align: center;
+    font-style: italic;
+}
