@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Viet Holiday</title>
+        <link rel="stylesheet" href="index.css">
+    </head>
+
+    <header class="header"> 
+        <div class="logo">
+            <img class="header-logo" src="../image/logo.png" alt="Logo">
+        </div>
+
+        <nav class="navbar">
+            <ul>
+                <li><a href="home.html" class="active-nav">Home</a></li>
+                <li><a href="about_us.html">About Us</a></li>
+                <li><a href="booking.html">Booking</a></li>
+                <li><a href="vehicle.html"> Vehicles</a></li>
+            </ul>
+        </nav>
+
+        <div class="user-account-container">
+            <button id="signin-btn" class="signin-btn" onclick="window.location.href = 'signin.html'">Sign In</button>
+        </div>
+    </header>
+    
+    <body>
+        <div class="container-general">
+            <div class="container">
+                <div class="welcome-container">
+                    <span class="welcome">Welcome</span><br>
+                    <span>Find your best vehicle</span>
+                </div>
+                <form action="">
+                    <div class="pickup-container">
+                        <span>Pickup Location:</span><br>
+                        <select name="pick-up-location" id="pick-up-location">
+                            <option value="" disabled selected>-Please select a pickup location-</option>
+                            <option value="Ho Chi Minh">Ho Chi Minh City</option>
+                            <option value="Vung Tau">Vung Tau</option>
+                            <option value="Dong Nai">Dong Nai</option>
+                            <option value="Long An">Long An</option>
+                            <option value="Can Tho">Can Tho</option>
+                        </select>
+                    </div>
+            
+                    <div class="destination-container">
+                        <span>Destination:</span><br>
+                        <select name="destination" id="destination">
+                            <option value="" disabled selected>-Please select a destination-</option>
+                            <option value="Ho Chi Minh">Ho Chi Minh City</option>
+                            <option value="Vung Tau">Vung Tau</option>
+                            <option value="Dong Nai">Dong Nai</option>
+                            <option value="Long An">Long An</option>
+                            <option value="Can Tho">Can Tho</option>
+                        </select>
+                    </div>
+            
+                    <div class="time-container">
+                        <div class="date">
+                            <span>Pickup Date</span><br>
+                            <input type="date" id="pick-up-date" class="pick-up-date">
+                        </div>
+                        <div class="time">
+                            <span>Pickup Time</span> <br>
+                            <input type="time"id="pick-up-time" class="pick-up-time">
+                        </div> 
+                    </div>
+            
+                    <div class="more-info-container">
+                        <div class="seats">
+                            <span>Vehicle</span><br>
+                            <select name="seats-type" id="seats-type">
+                                <option value="" disabled selected>-Seats Type-</option>
+                                <option value="4">4</option>
+                                <option value="7">7</option>
+                                <option value="16">16</option>
+                                <option value="29">29</option>
+                                <option value="35">35</option>
+                                <option value="45">45</option>
+                            </select>
+                        </div>
+                        <div class="children">
+                            <span>Children</span><br>
+                            <input type="number" id="children-input" class="children-input" min="0" max="44">
+                        </div>
+                        <div class="adult">
+                            <span>Adults</span><br>
+                            <input type="number" id="adult-input" class="adult-input" min="0" max="45" required pattern=".{1,}">
+                        </div>
+                    </div>
+                </form>
+                
+                <span class="note">*Prices on the website are the reference only. For more details,</span><br>
+                <span class="note">please contact us directly</span><br>
+        
+                <button type="submit" class="search-button" onclick="search()">Search</button>
+            </div>
+        
+            <div class="slogan">    
+                <span class="slogan-text">MAKE TRIPS BETTER</span> <br>
+                <span class="slogan-text-2">Offering the best service</span>
+            </div>
+        </div>
+        
+        <div class="body-container">
+            <h1> WHY CHOOSE US?</h1>
+            <div class="card-container">
+                <div class="card">
+                    <box-icon name='support' size="100px"></box-icon>
+                    <img class="cus-sup" src="../image/4983559.png" alt="Customer Support">
+                    <h2>Customer Support</h2>
+                    <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
+                </div>
+
+                <div class="card">
+                    <box-icon type='solid' name='planet' size="100px"></box-icon>
+                    <img class="bus-travel" src="../image/3147375-200.png" alt="Business Travel">
+                    <h2>Business Travel</h2>
+                    <p>Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. </p>
+                </div>
+
+                <div class="card">
+                    <box-icon name='heart' type='solid' size="100px"></box-icon>
+                    <img class="care" src="../image/335636-200.png" alt="Duty of Care">
+                    <h2>Duty of Care</h2>
+                    <p>Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.</p>
+                </div>
+            </div>
+        </div>
+        
+        <script src="userScript.js"></script>
+        <script>
+            const searchParams = new URLSearchParams(window.location.search);
+            const userId = searchParams.get('user.id');
+            const userAccountSelect = document.getElementById("user-account");
+
+            if (userId) {
+                token(userId);
+            }
+
+            window.onscroll = function() {scrollFunction()};
+        </script>
+    </body>
+    <footer class="footer">
+        <div class="footer-top">
+            <div class="subscribe-container">    
+                <h2>Subscribe our newsletter</h2>
+                <span>Want to know about our offer first?</span> <br>
+                <input type="text" class="email" id="email" placeholder="example@gmail.com">
+                <button>Subscribe</button>
+            </div>
+
+            <div class="logo-container">
+                <img src="../image/logo.png" alt="Logo">
+            </div>
+        </div>
+        
+        <div class="footer-bottom">
+            <div class="footer-contact-info">
+                <box-icon name='phone' type='solid' size="36px" color="#FFCD6B"></box-icon> <br>
+                <span>+84 (0) 933 9696 17</span> <br>
+                <span>Mr. Nam</span>
+            </div>
+            <div class="footer-contact-info">
+                <box-icon name='location-plus' type='solid' size="36px" color="#FFCD6B"></box-icon> <br>
+                <span>aaaaaaaaaaaaaaaaaaa</span>
+            </div>
+            <div class="footer-contact-info">
+                <box-icon name='envelope' type='solid' size="36px" color="#FFCD6B"></box-icon> <br>
+                <span>example@gmail.com</span>
+            </div>
+            <div class="working-hours footer-contact-info">
+                <box-icon name='pie-chart-alt' size="36px" color="#FFCD6B"></box-icon> <br>
+                <span>Mon-Fri: 8:00-21:00</span> <br>
+                <span>Sat-Sun: 9:30-19:30</span>
+            </div>
+        </div>
+        
+        <div class="group-id">
+            <span>Group 18</span>
+        </div>
+
+    </footer>
+</html>
