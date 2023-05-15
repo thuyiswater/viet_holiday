@@ -286,6 +286,11 @@ function searchValidation(pickupLocation, destination, pickupDate, pickupTime, s
         return false;
     }
 
+    if(childrenInput.value && !adultInput.value || parseInt(adultInput.value) === 0){
+        alert("Children need guardians to accompany");
+        return false;
+    }
+
     if(!childrenInput.value && !adultInput.value){
         alert("You haven't input the number of children and adult passengers!");
         return false;
@@ -547,11 +552,8 @@ function addPayment(paymentMethod, amount, pickupDate){
         } else {
           throw new Error('Error adding payment. Please try again.');
         }
-      })
-    .catch(error => {
-        console.log(error);
-        document.querySelector('.error-message').textContent = 'An error occurred. Please try again later.';
-    });
+    })
+    
 }
 
 //------------------PAYMENT PAGE-------------------
@@ -568,65 +570,82 @@ function redirectAfter10Seconds() {
 }
 
 //------------------COMPLETE PAGE------------------
-function addBooking(userId) {
-    const pickupLocation = urlParams.get('pickupLocation');
-    const destination = urlParams.get('destination');
-    const pickupDate = urlParams.get('pickupDate');
-    const pickupTime = urlParams.get('pickupTime');
-    const travelingTime = urlParams.get('travelingTime');
-    const childrenInput = urlParams.get('childrenInput');
-    const adultInput = urlParams.get('adultInput');
-    const vehicleId = urlParams.get('vehicleId');
-    const driverId = urlParams.get('driverId');
-    const paymentId = urlParams.get('paymentId');
+// function addBooking(userId) {
+//     const pickupLocation = urlParams.get('pickupLocation');
+//     const destination = urlParams.get('destination');
+//     const pickupDate = urlParams.get('pickupDate');
+//     const pickupTime = urlParams.get('pickupTime');
+//     const travelingTime = urlParams.get('travelingTime');
+//     const childrenInput = urlParams.get('childrenInput');
+//     const adultInput = urlParams.get('adultInput');
+//     const vehicleId = urlParams.get('vehicleId');
+//     const driverId = urlParams.get('driverId');
+//     const paymentId = urlParams.get('paymentId');
 
-    const passengers = parseInt(childrenInput) + parseInt(adultInput);
+//     const passengers = parseInt(childrenInput) + parseInt(adultInput);
 
-    const user = {
-        id: 1, 
-        userName: 'test', 
-        userEmail: 'test', 
-        userPassword: 'test1', 
-        userPhoneNumber: '84', 
-        bookings: []
-    }
+//     const user = {
+//         id: 1, 
+//         userName: 'test', 
+//         userEmail: 'test', 
+//         userPassword: 'test1', 
+//         userPhoneNumber: '84', 
+//         bookings: []
+//     }
 
-    const newBooking = {
-        bookingDate: pickupDate,
-        user: user,
-        bookingPickUpLocation: pickupLocation,
-        bookingDropOffLocation: destination,
-        bookingPickUpTime: pickupTime,
-        bookingDropOffTime: '',
-        bookingNumberOfPassengers: passengers,
-        vehicle: null,
-        driver: null,
-        payment: null
-    };
+//     const newBooking = {
+//         bookingDate: pickupDate,
+//         user: user,
+//         bookingPickUpLocation: pickupLocation,
+//         bookingDropOffLocation: destination,
+//         bookingPickUpTime: pickupTime,
+//         bookingDropOffTime: '',
+//         bookingNumberOfPassengers: passengers,
+//         vehicle: null,
+//         driver: null,
+//         payment: null
+//     };
 
-    console.log(newBooking);
+//     console.log(newBooking);
 
-    fetch('http://localhost:8080/api/v1/bookings', {
-        method: 'post',
-        headers: {
-          'Content-Type': 'application/json'
-        },
-        body: JSON.stringify(newBooking)
-      })
-      .then(response => {
-        if (response.ok) {
-          return response.json(); // Return the full response object
-        } else {
-          throw new Error('Error adding payment. Please try again.');
-        }
-      })
-      .catch(error => {
-        console.log(error);
-      });
+//     fetch('http://localhost:8080/api/v1/bookings', {
+//         method: 'post',
+//         headers: {
+//           'Content-Type': 'application/json'
+//         },
+//         body: JSON.stringify(newBooking)
+//       })
+//       .then(response => {
+//         if (response.ok) {
+//           return response.json(); // Return the full response object
+//         } else {
+//           throw new Error('Error adding payment. Please try again.');
+//         }
+//       })
+//       .catch(error => {
+//         console.log(error);
+//       });
+// }
+
+function calculateArrivalTime(pickupTime, travelingTime) {
+      const pickupDateTime = new Date(pickupTime);
+      const travelingMinutes = parseInt(travelingTime);
+
+     
+
+      const arrivalDateTime = new Date(pickupDateTime.getTime() + travelingMinutes * 60000);
+
+     
+
+      const arrivalTime = arrivalDateTime.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+
+     
+
+      return arrivalTime;
 }
 
-/*
-function createNewBooking(userId){
+
+async function createNewBooking(userId){
     // Get booking details from URL parameters
     const pickupLocation = urlParams.get('pickupLocation');
     const destination = urlParams.get('destination');
@@ -686,17 +705,13 @@ function createNewBooking(userId){
           })
       })
       .then(response => {
-        if (response.ok) {
-          return response.json(); // Return the full response object
-        } else {
-          throw new Error('Error adding payment. Please try again.');
-        }
+        console.log("response ne", response.text());
       })
       .catch(error => {
         console.log(error);
-        document.querySelector('.error-message').textContent = 'An error occurred. Please try again later.';
       });
     });
+    console.log("Booking id ne he he", createNewBooking.id);
 }
 
 function getUserById(userId){
@@ -753,5 +768,5 @@ function getPaymentById(paymentId){
 function fetchBooking(){
 
 }
-*/
+
 
