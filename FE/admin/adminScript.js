@@ -77,6 +77,10 @@ function writeDriver(driverList, drivers) {
                                     <span class="attribute-name">License: </span>${driver.driverLicenseNumber}<br>
                                     <span class="attribute-name">Experience: </span>${driver.driverYearOfExperience}<br>`;
         driverElement.classList.add('driver');
+        driverElement.setAttribute('data-phone', driver.driverPhoneNumber);
+        driverElement.setAttribute('data-name', driver.driverName);
+        driverElement.setAttribute('data-license', driver.driverLicenseNumber);
+        driverElement.setAttribute('data-experience', driver.driverYearOfExperience);
 
         const editButtonElement = document.createElement('button');
         editButtonElement.textContent = 'Edit';
@@ -191,8 +195,12 @@ function fetchVehicle(vehicleList){
             vehicleElement.innerHTML = `<span class="attribute-name">Brand: </span>${vehicle.brand}<br>
                                         <span class="attribute-name">Name: </span>${vehicle.name}<br>
                                         <span class="attribute-name">Seats: </span>${vehicle.seatNumber}<br>
+                                        <span class="attribute-name">Colour: </span>${vehicle.color}<br>
                                         <span class="attribute-name">Plate: </span>${vehicle.plate}<br>`;
             vehicleElement.classList.add('vehicle');
+            vehicleElement.setAttribute('data-brand', vehicle.brand);
+            vehicleElement.setAttribute('data-name', vehicle.name);
+            vehicleElement.setAttribute('data-seat', vehicle.seatNumber);
 
             const editButtonElement = document.createElement('button');
             editButtonElement.textContent = 'Edit';
@@ -217,8 +225,6 @@ function fetchVehicle(vehicleList){
         console.error('Error:', error);
     })
 }
-
-
 
 //---------------ADD VEHICLE---------------
 function addVehicle(newVehicle){

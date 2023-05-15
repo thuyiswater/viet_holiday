@@ -18,7 +18,7 @@
                 <li><a href="home.html" class="active-nav">Home</a></li>
                 <li><a href="about_us.html">About Us</a></li>
                 <li><a href="booking.html">Booking</a></li>
-                <li><a href="vehicle.html">Vehicles</a></li>
+                <li><a href="vehicle.html"> Vehicles</a></li>
             </ul>
         </nav>
 
@@ -85,11 +85,11 @@
                         </div>
                         <div class="children">
                             <span>Children</span><br>
-                            <input type="number" id="children-input" class="children-input" min="0">
+                            <input type="number" id="children-input" class="children-input" min="0" max="44">
                         </div>
                         <div class="adult">
                             <span>Adults</span><br>
-                            <input type="number" id="adult-input" class="adult-input" min="0">
+                            <input type="number" id="adult-input" class="adult-input" min="0" max="45" required pattern=".{1,}">
                         </div>
                     </div>
                 </form>

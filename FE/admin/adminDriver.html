@@ -30,7 +30,26 @@
     
     <body>
         <div class="container-general">
-            <button class="add-button" id="add-button">Add</button>
+            <div class="button-group">
+                <button id="add-button">Add</button>
+                <button class="filter-button" id="filter-button">Filter</button>
+            </div>
+
+            <form id="filter-form" class="filter-container" style="display: none;">
+                <label for="search">Search:</label>
+                <input type="text" id="search" name="search" placeholder="Driver's Name or Phone or License Number">
+                
+                <label for="experience">Year of Experience:</label>
+                <select id="experience" name="experience">
+                <option value="">Select Year of Experience:</option>
+                <option value="1">1</option>
+                <option value="2-5">2-5</option>
+                <option value="5-10">5-10</option>
+                <option value="10+">More than 10</option>
+                </select>
+                <button>Search</button>
+            </form>
+
             <div class="driver-list">
             </div>
         </div>       
@@ -46,6 +65,44 @@
             const addDriverSelect = document.getElementById("add-button");
             addDriverSelect.addEventListener("click", function() {
                 window.location.href = "addDriver.html";
+            });
+
+            const filterButton = document.getElementById("filter-button");
+            const filterContainer = document.querySelector(".filter-container");
+
+            filterButton.addEventListener("click", function () {
+                if (filterContainer.style.display === "block") {
+                    filterContainer.style.display = "none";
+                    filterButton.classList.remove("active");
+                } else {
+                    filterContainer.style.display = "block";
+                    filterButton.classList.add("active");
+                }
+            });
+
+            const searchButton = document.querySelector('#filter-form button');
+            searchButton.addEventListener('click', function(event) {
+                event.preventDefault();
+                const searchValue = document.querySelector('#search').value.trim().toLowerCase();
+                const experienceValue = document.querySelector('#experience').value;
+                const driverElements = document.querySelectorAll('.driver');
+
+                driverElements.forEach((driverElement) => {
+                    const name = driverElement.getAttribute('data-name').toLowerCase();
+                    const phone = driverElement.getAttribute('data-phone').toLowerCase();
+                    const license = driverElement.getAttribute('data-license').toLowerCase();
+                    const experience = parseInt(driverElement.getAttribute('data-experience'));
+
+                    if ((searchValue === '' || name.includes(searchValue) || phone.includes(searchValue) || license.includes(searchValue)) &&
+                        (experienceValue === '' || (experienceValue === '1' && experience >= 1) ||
+                        (experienceValue === '2-5' && experience >= 2 && experience <= 5) ||
+                        (experienceValue === '5-10' && experience >= 5 && experience <= 10) ||
+                        (experienceValue === '10+' && experience > 10))) {
+                    driverElement.style.display = 'block';
+                    } else {
+                        driverElement.style.display = 'none';
+                    }
+                });
             });
         </script>
     </body>

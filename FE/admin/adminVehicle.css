@@ -14,6 +14,7 @@
 }
 
 body {
+    background-color: rgba(255, 205, 107, 0.5);
     height: fit-content;
     margin-bottom: 80px;
 }
@@ -77,10 +78,14 @@ body {
 }
 
 .container-general{
-    background-color: rgba(255, 205, 107, 0.5);
     margin-top: 9%;
     position: relative;
     padding: 10px 2.5%;
+}
+
+.vehicle-list {
+    display: flex;
+    flex-wrap: wrap;
 }
 
 .vehicle {
@@ -94,6 +99,10 @@ body {
     border: 1px solid #FFCD6B;
     border-radius: 15px;
     font-size: 18px;
+}
+
+.vehicle:nth-child(3n+1) {
+    clear: both;
 }
 
 .attribute-name {
@@ -123,6 +132,10 @@ body {
     margin-right: 1%;
 }
 
+#filter-button.active {
+    background-color:  #e29700;
+  }
+
 .filter-container {
     margin: 20px 3%;
     background-color: white;
@@ -134,7 +147,27 @@ body {
 }
 
 .filter-container input {
-    width: 60%;
+    width: 50%;
+    border: none;
+    outline: none;
+    font-size: 18px;
+}
+
+.filter-container select,
+.filter-container option{
+    border: none;
+    outline: none;
+    font-size: 18px;
+}
+
+.filter-container button {
+    padding: 10px;
+    border: none;
+    outline: none;
+    border-radius: 10px;
+    font-size: 12px;
+    font-weight: bold;
+    background-color: lightgray;
 }
 
 .edit-button,
@@ -170,4 +203,3 @@ body {
 .group-id {
     font-style: italic;
 }
-

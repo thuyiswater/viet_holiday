@@ -34,10 +34,11 @@
                 <button id="add-button">Add</button>
                 <button class="filter-button" id="filter-button">Filter</button>
             </div>
-            <div class="filter-container" style="display: none;">
+
+            <form id="filter-form" class="filter-container" style="display: none;">
                 <label for="search">Search:</label>
                 <input type="text" id="search" name="search" placeholder="Car's Branch or Name">
-              
+                
                 <label for="seats-type">Seats type:</label>
                 <select id="seats-type" name="seats-type">
                   <option value="">Select seats type</option>
@@ -48,7 +49,9 @@
                   <option value="35">35</option>
                   <option value="45">45</option>
                 </select>
-              </div>
+                <button>Search</button>
+            </form>
+
             <div class="vehicle-list">
             </div>
         </div>       
@@ -70,7 +73,34 @@
             const filterContainer = document.querySelector(".filter-container");
 
             filterButton.addEventListener("click", function () {
-                filterContainer.style.display = filterContainer.style.display === "none" ? "block" : "none";
+                if (filterContainer.style.display === "block") {
+                    filterContainer.style.display = "none";
+                    filterButton.classList.remove("active");
+                } else {
+                    filterContainer.style.display = "block";
+                    filterButton.classList.add("active");
+                }
+            });
+
+            const searchButton = document.querySelector('#filter-form button');
+            searchButton.addEventListener('click', function(event) {
+                event.preventDefault();
+                const searchValue = document.querySelector('#search').value.trim().toLowerCase();
+                const seatsValue = document.querySelector('#seats-type').value;
+                const vehicleElements = document.querySelectorAll('.vehicle');
+
+                vehicleElements.forEach((vehicleElement) => {
+                    const brand = vehicleElement.getAttribute('data-brand').toLowerCase();
+                    const name = vehicleElement.getAttribute('data-name').toLowerCase();
+                    const seats = vehicleElement.getAttribute('data-seat');
+
+                    if ((searchValue === '' || brand.includes(searchValue) || name.includes(searchValue)) &&
+                        (seatsValue === '' || parseInt(seats) === parseInt(seatsValue))) {
+                        vehicleElement.style.display = 'block';
+                    } else {
+                        vehicleElement.style.display = 'none';
+                    }
+                });
             });
         </script>
     </body>

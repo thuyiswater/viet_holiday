@@ -237,14 +237,12 @@ function search() {
         childrenInput.value = 0;
     }
 
-    const totalPassengers = parseInt(childrenInput.value) + parseInt(adultInput.value) + 1;
-    console.log(totalPassengers);
-
-    if(seatsType.value < totalPassengers) {
-        alert("The total passengers are more than the seat type of the vehicle. Please select the vehicle with a larger seat type number.");
-        return;
-    }
+    const totalPassengers = parseInt(childrenInput.value) + parseInt(adultInput.value);
     
+    if(!searchValidation(pickupLocation, destination, pickupDate, pickupTime, seatsType, childrenInput, adultInput, totalPassengers)){
+        return
+    }
+
     if(userId === null){
         const url = `searchPage.html?pickupLocation=${pickupLocation.value}&destination=${destination.value}&pickupDate=${pickupDate.value}&pickupTime=${pickupTime.value}&seatsType=${seatsType.value}&childrenInput=${childrenInput.value}&adultInput=${adultInput.value}`;
         window.location.href = url;
@@ -252,6 +250,53 @@ function search() {
     }
     const url = `searchPage.html?user.id=${userId}&pickupLocation=${pickupLocation.value}&destination=${destination.value}&pickupDate=${pickupDate.value}&pickupTime=${pickupTime.value}&seatsType=${seatsType.value}&childrenInput=${childrenInput.value}&adultInput=${adultInput.value}`;
     window.location.href = url;
+}
+
+function searchValidation(pickupLocation, destination, pickupDate, pickupTime, seatsType, childrenInput, adultInput, totalPassengers) {
+    if(!pickupLocation.value){
+        alert("You haven't input the pick up location!");
+        return false;
+    }
+
+    if(!destination.value){
+        alert("You haven't input the destination!");
+        return false;
+    }
+
+    if(pickupLocation.value === destination.value){
+        alert("The pick up location and destination cannot be the same!");
+        return false;
+    }
+
+    if(!pickupDate.value){
+        alert("You haven't input the pick up date!");
+        return false;
+    }
+
+    if(!pickupTime.value){
+        alert("You haven't input the pick up time!");
+        return false;
+    }
+
+    var currentDate = new Date();
+    var pickupDateTime = new Date(pickupDate.value + ' ' + pickupTime.value);
+    console.log(pickupDateTime);
+    if(pickupDateTime <= currentDate || pickupDateTime.getTime() - currentDate.getTime() < 2*60*60*1000){
+        alert("The pickup date and time must be at least 2 hours from now.");
+        return false;
+    }
+
+    if(!childrenInput.value && !adultInput.value){
+        alert("You haven't input the number of children and adult passengers!");
+        return false;
+    }
+
+    if(seatsType.value < totalPassengers + 1) {
+        alert("The total passengers are more than the seat type of the vehicle. Please select the vehicle with a larger seat type number.");
+        return false;
+    } 
+
+    return true;
 }
 
 function scrollFunction() {
@@ -296,6 +341,9 @@ function displayAvailableVehicle(availableVehicles){
                                     <span class="attribute-name">Colour: </span>${vehicle.color}<br>
                                     <span class="attribute-name">Plate: </span>${vehicle.plate}<br>`;
         vehicleElement.classList.add('vehicle');
+        vehicleElement.setAttribute('data-brand', vehicle.brand);
+        vehicleElement.setAttribute('data-name', vehicle.name);
+        vehicleElement.setAttribute('data-seat', vehicle.seatNumber);
 
         const buttonElement = document.createElement('button');
         buttonElement.textContent = 'Booking';
@@ -536,16 +584,16 @@ function addBooking(userId) {
 
     const user = {
         id: 1, 
-        userName: 'thuy', 
-        userEmail: '09', 
-        userPassword: 'thuy', 
-        userPhoneNumber: '09', 
+        userName: 'test', 
+        userEmail: 'test', 
+        userPassword: 'test1', 
+        userPhoneNumber: '84', 
         bookings: []
     }
 
     const newBooking = {
         bookingDate: pickupDate,
-        user: user.id,
+        user: user,
         bookingPickUpLocation: pickupLocation,
         bookingDropOffLocation: destination,
         bookingPickUpTime: pickupTime,
@@ -555,6 +603,8 @@ function addBooking(userId) {
         driver: null,
         payment: null
     };
+
+    console.log(newBooking);
 
     fetch('http://localhost:8080/api/v1/bookings', {
         method: 'post',
@@ -704,5 +754,4 @@ function fetchBooking(){
 
 }
 */
-
 
