@@ -448,25 +448,6 @@ function validateVehicleInputs(seats, plate) {
     return null;
 }
 
-/*
-function addVehicle(newVehicle){
-    fetch('http://localhost:8080/api/v1/vehicles', {
-        method: "POST",
-        headers: {
-            'Content-Type': 'application/json'
-        },
-        body: JSON.stringify(newVehicle)
-    })
-    .then(response => {
-        
-    }).then(json => {
-            console.log(json)
-        })
-    .catch(error => {
-        console.log(error);
-    });
-}*/
-
 function addVehicle(newVehicle) {
     fetch('http://localhost:8080/api/v1/vehicles', {
       method: "POST",
@@ -477,6 +458,7 @@ function addVehicle(newVehicle) {
     })
     .then(response => {
       if (response.ok) {
+        document.querySelector('.success-message').textContent = 'Vehicle created successfully!';
         return response.json(); 
       } else {
         throw new Error('Error creating new vehicle. Please try again.');
@@ -509,6 +491,7 @@ function handleAddVehicleByCSV(event) {
 function handleVehicleCSVFileRead(event) {
     const csvData = event.target.result;
     addVehiclesFromCSV(csvData);
+    document.querySelector('.success-message').textContent = 'Vehicle created successfully!';
 }
   
 function handleVehicleCSVFileError(event) {
@@ -534,6 +517,7 @@ function addVehiclesFromCSV(csvData) {
         console.log(vehicle);
         addVehicle(vehicle);
     });
+   
 }
 
 //---------------EDIT VEHICLE---------------
