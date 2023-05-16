@@ -92,7 +92,9 @@ form {
     height: 100%;
 }
 
-form input {
+form input,
+form select,
+form option {
     padding: 5px 20px;
 }
 

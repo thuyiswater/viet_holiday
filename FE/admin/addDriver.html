@@ -39,6 +39,11 @@
                         <p class="error-message"></p>
                     </div>
 
+                    <div class="csv-group">
+                        <input type="file" id="csv-file" accept=".csv">
+                        <button id="add-csv-button">Add By CSV</button>
+                    </div>
+
                     <label for="name">Name:</label>
                     <input  type="text" id="name"required pattern=".{1,}">
 
@@ -67,23 +72,35 @@
             let form = document.querySelector('form');
             form.addEventListener('submit', (event) => {
                 event.preventDefault();
+
+                document.querySelector('.error-message').textContent = '';
+                document.querySelector('.success-message').textContent = '';
+
                 let name = document.querySelector('#name').value;
                 let phone = document.querySelector('#phone').value;
                 let license = document.querySelector('#license').value;
                 let experience = document.querySelector('#experience').value;
                 let password = document.querySelector('#password').value;
 
+                const error = validateDriverInputs(phone, license, experience);
+                if(error){
+                    document.querySelector('.error-message').textContent = error;
+                    return;
+                }
+
                 const newDriver = {
-                    driverName: name, 
-                    driverPhoneNumber: phone, 
-                    driverLicenseNumber: license, 
-                    driverYearOfExperience: experience, 
+                    driverName: name,
+                    driverPhoneNumber: phone,
+                    driverLicenseNumber: license,
+                    driverYearOfExperience: experience,
                     driverPassword: password,
                     driverAvatar: "none"
                 };
-        
+
                 addDriver(newDriver);
             });
+
+            document.getElementById('add-csv-button').addEventListener('click', handleAddDriverByCSV);
 
             const adminAccountSelect = document.getElementById("admin-account");
             adminAccountSelect.addEventListener("change", function() { logOut(adminAccountSelect.value) });

@@ -94,7 +94,7 @@
                     const experience = parseInt(driverElement.getAttribute('data-experience'));
 
                     if ((searchValue === '' || name.includes(searchValue) || phone.includes(searchValue) || license.includes(searchValue)) &&
-                        (experienceValue === '' || (experienceValue === '1' && experience >= 1) ||
+                        (experienceValue === '' || (experienceValue === '1' && experience === 1) ||
                         (experienceValue === '2-5' && experience >= 2 && experience <= 5) ||
                         (experienceValue === '5-10' && experience >= 5 && experience <= 10) ||
                         (experienceValue === '10+' && experience > 10))) {

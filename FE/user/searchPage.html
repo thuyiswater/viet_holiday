@@ -88,11 +88,11 @@
             const adultInput = urlParams.get('adultInput');
             console.log(userId);
 
-            if (userId) {
+            if(userId) {
                 token(userId);
             }
 
-            searchVehicle();
+            searchVehicle(userId, seatsType);
           </script>
     </body>
 </html>

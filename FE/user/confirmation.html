@@ -149,39 +149,7 @@
                 token(userId);
             }
             
-            autoFillUser(userId);
-            autoFillVehicle(pickupLocation, destination, vehicleId);
-            autoFillDriver(pickupDate)
-            .then(driverId => {
-                let form = document.querySelector('form');
-                form.addEventListener('submit', (event) => { 
-                    event.preventDefault();
-                    const travelingTime = estimateTravelingTime(pickupLocation, destination);
-                    const paymentMethod = document.querySelector('.payment').value;
-                    if (paymentMethod === 'banking') {
-                        const amount = document.getElementById('total').innerHTML;
-                        const date = new Date();
-                        const formattedDate = `${date.getFullYear()}-${date.getMonth() + 1}-${date.getDate()}`;
-                        
-                        url = `payment.html?user.id=${userId}&pickupLocation=${pickupLocation}&destination=${destination}&pickupDate=${pickupDate}&pickupTime=${pickupTime}&travelingTime=${travelingTime}&childrenInput=${childrenInput}&adultInput=${adultInput}&vehicleId=${vehicleId}&driverId=${driverId}&paymentType=${paymentMethod}&paymentAmount=${amount}&paymentDate=${formattedDate}`;
-                        window.location.href = url;
-                        return;
-                    } else {
-                        const amount = document.getElementById('total').innerHTML;
-                        addPayment(paymentMethod, amount, pickupDate)
-                        .then(payment => {
-                            const paymentId = payment.id;
-                            
-                            url = `complete.html?user.id=${userId}&pickupLocation=${pickupLocation}&destination=${destination}&pickupDate=${pickupDate}&pickupTime=${pickupTime}&travelingTime=${travelingTime}&childrenInput=${childrenInput}&adultInput=${adultInput}&vehicleId=${vehicleId}&driverId=${driverId}&paymentId=${paymentId}`;
-                            window.location.href = url;
-                            return;
-                        });
-                    }
-                });
-            })
-            .catch(error => {
-                console.error('Error:', error);
-            });
+            confirm(userId, pickupLocation, destination, vehicleId, pickupDate, childrenInput, adultInput);
         </script>      
     </body>
 </html>

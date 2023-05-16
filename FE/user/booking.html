@@ -5,7 +5,7 @@
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <title>Viet Holiday</title>
-        <link rel="stylesheet" href="admin.css">
+        <link rel="stylesheet" href="booking.css">
     </head>
 
     <header class="header"> 
@@ -20,30 +20,52 @@
             <a href="vehicle.html"> Vehicles</a>
         </nav>
 
-        <div class="admin-account-container">
-            <select name="admin-account" id="admin-account">
-                <option value="admin-account" selected disabled>Admin</option>
-                <option value="logOut">Log Out</option>
-            </select>
+        <div class="user-account-container">
+            <button id="signin-btn" class="signin-btn" onclick="window.location.href = 'signin.html'">Sign In</button>
         </div>
     </header>
     
     <body>
         <div class="container-general">
-            <div class="booking">
-                <h4>booking</h4> <br>
-                <table class="booking-table"></table>
+            <div class="schedule">
+                <h4>My Booking</h4>
+
+                <form id="filter-form" class="filter-container">
+                    <label for="search-date">Date:</label>
+                    <input type="date" id="search-date" class="search-date">
+
+                    <label for="search">Search:</label>
+                    <input type="text" id="search" name="search" placeholder="Booking ID">
+                    
+                    <label for="payment-method">Payment Method:</label>
+                    <select id="payment-method" name="payment-method">
+                      <option value=""></option>
+                      <option value="banking">Banking</option>
+                      <option value="cash">Cash</option>
+                    </select>
+
+                    <button>Search</button>
+                </form>
+
+                <table class="schedule-table"></table>
             </div>
-        </div>       
+        </div>         
         
         <script src="userScript.js"></script>
         <script>
             const searchParams = new URLSearchParams(window.location.search);
             const userId = searchParams.get('user.id');
+            console.log(userId);
 
             if (userId) {
                 token(userId);
             }
+
+            const filterForm = document.getElementById('filter-form');
+            filterForm.addEventListener('submit', function(event) {
+                event.preventDefault();
+                fetchBooking(userId);
+            });
 
         </script>
     </body>

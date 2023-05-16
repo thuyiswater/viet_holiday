@@ -7,6 +7,9 @@ function signUp(event){
     let password = document.querySelector('#password').value;
     let confirm_password = document.querySelector('#confirm-password').value;
 
+    document.querySelector('.error-message').textContent = '';
+    document.querySelector('.success-message').textContent = '';
+
     validateSignUp(name, phone, email, password, confirm_password);
 }
 
@@ -15,6 +18,19 @@ function validateSignUp(name, phone, email, password, confirm_password){
     .then(response => response.json())
     .then(users => {
         const foundUser = users.find(user => user.userEmail === email);
+        const phoneRegex = /^84\d{9}$/; 
+        const emailRegex = /\S+@\S+\.\S+/;
+        
+        if (!phoneRegex.test(phone)) {
+            document.querySelector('.error-message').textContent = 'Invalid phone number. Please enter a valid phone number!';
+            return; 
+        }
+
+        if (!emailRegex.test(email)) {
+            document.querySelector('.error-message').textContent = 'Invalid email format. Please enter a valid email address.';
+            return; 
+        }
+
         if (foundUser) {
             document.querySelector('.error-message').textContent = 'This email is already signed up. Please use a different email.';
             return; 
@@ -313,30 +329,33 @@ function scrollFunction() {
 }
 
 //------------------SEARCH PAGE-------------------
-function searchVehicle() {
-    fetch('http://localhost:8080/api/v1/vehicles')
-    .then(response => response.json())
-    .then(vehicles => {
-        return fetch('http://localhost:8080/api/v1/bookings')
-            .then(response => response.json())
-            .then(bookings => {
-                const availableVehicles = vehicles.filter(vehicle => {
-                    return parseInt(vehicle.seatNumber) >= seatsType && 
-                        bookings.filter(schedule => schedule.vehicleId === vehicle.id && schedule.date === pickupDate).length === 0;
-                    });
-                console.log(availableVehicles);
-                return availableVehicles;
+function searchVehicle(userId, seatsType) {
+    console.log("searchVehicle");
+    console.log(userId);
+    Promise.all([
+        fetch('http://localhost:8080/api/v1/vehicles').then(response => response.json()),
+        fetch('http://localhost:8080/api/v1/bookings').then(response => response.json())
+    ])
+    .then(([vehicles, bookings]) => {
+        const availableVehicles = vehicles.filter(vehicle => {
+            const matchingBookings = bookings.filter(booking => {
+                return booking.vehicle.id === vehicle.id && booking.bookingDate === pickupDate;
             });
+            return parseInt(vehicle.seatNumber) === parseInt(seatsType) && matchingBookings.length === 0;
+        });
+        return availableVehicles;
     })
     .then(availableVehicles => {
-        displayAvailableVehicle(availableVehicles);
+        displayAvailableVehicle(userId, availableVehicles);
     })
     .catch(error => {
         console.error('Error:', error);
     });
 }
 
-function displayAvailableVehicle(availableVehicles){
+function displayAvailableVehicle(userId, availableVehicles){
+    console.log("displayAvailableVehicle");
+    console.log(userId);
     availableVehicles.sort((a, b) => a.seatNumber - b.seatNumber);
     availableVehicles.forEach(vehicle => {
         const vehicleElement = document.createElement('div');
@@ -355,18 +374,14 @@ function displayAvailableVehicle(availableVehicles){
         buttonElement.classList.add('booking-button');
         buttonElement.addEventListener('click', () => {
             if(userId === null){
-                const error = confirm("You need to sign in before making a booking. Do you want to sign in?");
-                if(error){
-                    sign_in_url =  `signin.html?pickupLocation=${pickupLocation}&destination=${destination}&pickupDate=${pickupDate}&pickupTime=${pickupTime}&seatsType=${seatsType}&childrenInput=${childrenInput}&adultInput=${adultInput}&vehicleId=${vehicle.id}`;
-                    window.location.href = sign_in_url ;
-                    return;
-                } else {
-                    return;
-                }
+                alert("You have to sign in to make a booking!");
+                url =  `signin.html?pickupLocation=${pickupLocation}&destination=${destination}&pickupDate=${pickupDate}&pickupTime=${pickupTime}&seatsType=${seatsType}&childrenInput=${childrenInput}&adultInput=${adultInput}&vehicleId=${vehicle.id}`;
+                window.location.href = url;
+                return;
+            } else {
+                const url = `confirmation.html?user.id=${userId}&pickupLocation=${pickupLocation}&destination=${destination}&pickupDate=${pickupDate}&pickupTime=${pickupTime}&seatsType=${seatsType}&childrenInput=${childrenInput}&adultInput=${adultInput}&vehicleId=${vehicle.id}`;
+                window.location.href = url;
             }
-            url = `confirmation.html?user.id=${userId}&pickupLocation=${pickupLocation}&destination=${destination}&pickupDate=${pickupDate}&pickupTime=${pickupTime}&seatsType=${seatsType}&childrenInput=${childrenInput}&adultInput=${adultInput}&vehicleId=${vehicle.id}`;
-
-            window.location.href = url;
         });
         vehicleElement.appendChild(buttonElement);
         vehicleList.appendChild(vehicleElement);
@@ -410,31 +425,30 @@ function autoFillVehicle(pickupLocation, destination, vehicleId){
 
 function autoFillDriver(pickupDate) {
     return new Promise((resolve, reject) => {
-        fetch('http://localhost:8080/api/v1/drivers')
-        .then(response => response.json())
-        .then(drivers => {
-            fetch('http://localhost:8080/api/v1/bookings')
-            .then(response => response.json())
-            .then(bookings => {
-                const availableDriver = drivers.find(driver => 
-                bookings.filter(schedule => schedule.driverId === driver.id && schedule.date === pickupDate).length === 0
-                );
-                document.getElementById('driver-name').value = availableDriver.driverName;
-                document.getElementById('license').value = availableDriver.driverLicenseNumber;
-                document.getElementById('driver-phone').value = availableDriver.driverPhoneNumber;
-                resolve(availableDriver.id);
-            })
-            .catch(error => {
-                console.error('Error:', error);
-                reject(error);
-            });
-        })
-        .catch(error => {
-            console.error('Error:', error);
-            reject(error);
+      Promise.all([
+        fetch('http://localhost:8080/api/v1/drivers').then(response => response.json()),
+        fetch('http://localhost:8080/api/v1/bookings').then(response => response.json())
+      ])
+      .then(([drivers, bookings]) => {
+        const availableDriver = drivers.find(driver => {
+          const matchingBookings = bookings.filter(booking => {
+            return booking.driver.id === driver.id && booking.bookingDate === pickupDate;
+          });
+          return matchingBookings.length === 0;
         });
+  
+        document.getElementById('driver-name').value = availableDriver.driverName;
+        document.getElementById('license').value = availableDriver.driverLicenseNumber;
+        document.getElementById('driver-phone').value = availableDriver.driverPhoneNumber;
+        resolve(availableDriver.id);
+      })
+      .catch(error => {
+        console.error('Error:', error);
+        reject(error);
+      });
     });
-}
+  }
+  
 
 function calculateDistance(lat1, lon1, lat2, lon2) {
     const R = 6371; // Radius of the earth in km
@@ -531,7 +545,7 @@ function displayCost(distance, vehicleFee){
     document.getElementById('total').innerHTML = `${total}`;
 }
 
-function addPayment(paymentMethod, amount, pickupDate){
+function addCashPayment(paymentMethod, amount, pickupDate){
     const newPayment = {
         paymentType: paymentMethod, 
         paymentAmount: amount, 
@@ -553,100 +567,54 @@ function addPayment(paymentMethod, amount, pickupDate){
           throw new Error('Error adding payment. Please try again.');
         }
     })
-    
+}
+
+function confirm(userId, pickupLocation, destination, vehicleId, pickupDate, childrenInput, adultInput) {
+    autoFillUser(userId);
+    autoFillVehicle(pickupLocation, destination, vehicleId);
+    autoFillDriver(pickupDate)
+    .then(driverId => {
+        let form = document.querySelector('form');
+        form.addEventListener('submit', (event) => { 
+            event.preventDefault();
+            const travelingTime = estimateTravelingTime(pickupLocation, destination);
+            const paymentMethod = document.querySelector('.payment').value;
+            if(!paymentMethod){
+                alert("Please select a payment method!");
+                return;
+            }
+
+            if (paymentMethod === 'banking') {
+                const amount = document.getElementById('total').innerHTML;
+                const date = new Date();
+                const formattedDate = `${date.getFullYear()}-${date.getMonth() + 1}-${date.getDate()}`;
+                                
+                url = `payment.html?user.id=${userId}&pickupLocation=${pickupLocation}&destination=${destination}&pickupDate=${pickupDate}&pickupTime=${pickupTime}&travelingTime=${travelingTime}&childrenInput=${childrenInput}&adultInput=${adultInput}&vehicleId=${vehicleId}&driverId=${driverId}&paymentType=${paymentMethod}&paymentAmount=${amount}&paymentDate=${formattedDate}`;
+                window.location.href = url;
+                return;
+            } else {
+                const amount = document.getElementById('total').innerHTML;
+                addCashPayment(paymentMethod, amount, pickupDate)
+                .then(payment => {
+                    const paymentId = payment.id;
+                                    
+                    url = `complete.html?user.id=${userId}&pickupLocation=${pickupLocation}&destination=${destination}&pickupDate=${pickupDate}&pickupTime=${pickupTime}&travelingTime=${travelingTime}&childrenInput=${childrenInput}&adultInput=${adultInput}&vehicleId=${vehicleId}&driverId=${driverId}&paymentId=${paymentId}`;
+                    window.location.href = url;
+                    return;
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                });
+            }
+        });
+    })
+    .catch(error => {
+        console.error('Error:', error);
+    });
 }
 
 //------------------PAYMENT PAGE-------------------
 function redirectAfter10Seconds() {
-    let count = 10;
-    const countdown = setInterval(() => {
-        count--;
-        document.getElementById("countdown").innerHTML = count;
-        if (count === 0) {
-            clearInterval(countdown);
-            /*window.location.href = `complete.html?user.id=${userId}`;*/
-        }
-    }, 1000);
-}
-
-//------------------COMPLETE PAGE------------------
-// function addBooking(userId) {
-//     const pickupLocation = urlParams.get('pickupLocation');
-//     const destination = urlParams.get('destination');
-//     const pickupDate = urlParams.get('pickupDate');
-//     const pickupTime = urlParams.get('pickupTime');
-//     const travelingTime = urlParams.get('travelingTime');
-//     const childrenInput = urlParams.get('childrenInput');
-//     const adultInput = urlParams.get('adultInput');
-//     const vehicleId = urlParams.get('vehicleId');
-//     const driverId = urlParams.get('driverId');
-//     const paymentId = urlParams.get('paymentId');
-
-//     const passengers = parseInt(childrenInput) + parseInt(adultInput);
-
-//     const user = {
-//         id: 1, 
-//         userName: 'test', 
-//         userEmail: 'test', 
-//         userPassword: 'test1', 
-//         userPhoneNumber: '84', 
-//         bookings: []
-//     }
-
-//     const newBooking = {
-//         bookingDate: pickupDate,
-//         user: user,
-//         bookingPickUpLocation: pickupLocation,
-//         bookingDropOffLocation: destination,
-//         bookingPickUpTime: pickupTime,
-//         bookingDropOffTime: '',
-//         bookingNumberOfPassengers: passengers,
-//         vehicle: null,
-//         driver: null,
-//         payment: null
-//     };
-
-//     console.log(newBooking);
-
-//     fetch('http://localhost:8080/api/v1/bookings', {
-//         method: 'post',
-//         headers: {
-//           'Content-Type': 'application/json'
-//         },
-//         body: JSON.stringify(newBooking)
-//       })
-//       .then(response => {
-//         if (response.ok) {
-//           return response.json(); // Return the full response object
-//         } else {
-//           throw new Error('Error adding payment. Please try again.');
-//         }
-//       })
-//       .catch(error => {
-//         console.log(error);
-//       });
-// }
-
-function calculateArrivalTime(pickupTime, travelingTime) {
-      const pickupDateTime = new Date(pickupTime);
-      const travelingMinutes = parseInt(travelingTime);
-
-     
-
-      const arrivalDateTime = new Date(pickupDateTime.getTime() + travelingMinutes * 60000);
-
-     
-
-      const arrivalTime = arrivalDateTime.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
-
-     
-
-      return arrivalTime;
-}
-
-
-async function createNewBooking(userId){
-    // Get booking details from URL parameters
     const pickupLocation = urlParams.get('pickupLocation');
     const destination = urlParams.get('destination');
     const pickupDate = urlParams.get('pickupDate');
@@ -656,22 +624,91 @@ async function createNewBooking(userId){
     const adultInput = urlParams.get('adultInput');
     const vehicleId = urlParams.get('vehicleId');
     const driverId = urlParams.get('driverId');
+    const paymentType = urlParams.get('paymentType');
+    const paymentAmount = urlParams.get('paymentAmount');
+    const paymentDate = urlParams.get('paymentDate');
+  
+    let count = 10;
+    const countdown = setInterval(() => {
+      count--;
+      document.getElementById("countdown").innerHTML = count;
+      if (count === 0) {
+        clearInterval(countdown);
+        addBankingPayment(paymentType, paymentAmount, paymentDate)
+          .then(payment => {
+            const paymentId = payment.id;
+            url = `complete.html?user.id=${userId}&pickupLocation=${pickupLocation}&destination=${destination}&pickupDate=${pickupDate}&pickupTime=${pickupTime}&travelingTime=${travelingTime}&childrenInput=${childrenInput}&adultInput=${adultInput}&vehicleId=${vehicleId}&driverId=${driverId}&paymentId=${paymentId}`;
+            window.location.href = url;
+          })
+          .catch(error => {
+            console.error('Error:', error);
+          });
+      }
+    }, 1000);
+  }
+  
+
+function addBankingPayment(paymentType, amount, paymentDate){
+    const newPayment = {
+        paymentType: paymentType, 
+        paymentAmount: amount, 
+        paymentStatus: 'paid', 
+        paymentDate: paymentDate, 
+    };
+
+    return fetch('http://localhost:8080/api/v1/payments', {
+        method: "POST",
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(newPayment)
+    })
+    .then(response => {
+        if (response.ok) {
+          return response.json(); // Return the full response object
+        } else {
+          throw new Error('Error adding payment. Please try again.');
+        }
+    })
+}
+
+//------------------COMPLETE PAGE------------------
+
+function calculateArrivalTime(pickupTime, travelingTime) {
+    const [pickupHours, pickupMinutes] = pickupTime.split(':').map(Number);
+    const pickupDateTime = new Date();
+    pickupDateTime.setHours(pickupHours, pickupMinutes, 0);
+  
+    const travelingMinutes = parseInt(travelingTime, 10);
+    const arrivalDateTime = new Date(pickupDateTime.getTime() + travelingMinutes * 60000);
+    const arrivalHours = arrivalDateTime.getHours();
+    const arrivalMinutes = arrivalDateTime.getMinutes();
+    const arrivalTime = `${arrivalHours.toString().padStart(2, '0')}:${arrivalMinutes.toString().padStart(2, '0')}`;
+  
+    return arrivalTime;
+}
+
+async function createNewBooking(userId){
+    const pickupLocation = urlParams.get('pickupLocation');
+    const destination = urlParams.get('destination');
+    const pickupDate = urlParams.get('pickupDate');
+    const pickupTime = urlParams.get('pickupTime');
+    const travelingTime = parseFloat(urlParams.get('travelingTime'));
+    const childrenInput = urlParams.get('childrenInput');
+    const adultInput = urlParams.get('adultInput');
+    const vehicleId = urlParams.get('vehicleId');
+    const driverId = urlParams.get('driverId');
     const paymentId = urlParams.get('paymentId');
     
-    // Calculate arrival time and number of passengers
     const arrivalTime = calculateArrivalTime(pickupTime, travelingTime);
     const passengers = parseInt(childrenInput) + parseInt(adultInput);
   
-    // Use Promise.all to fetch user, vehicle, driver, and payment details asynchronously
     Promise.all([
       getUserById(userId),
       getVehicleById(vehicleId),
       getDriverById(driverId),
       getPaymentById(paymentId)
     ]).then(([user, vehicle, driver, payment]) => {
-      // Create new booking object with all the booking details and related objects
-      console.log(user);
-      console.log(driver);
       const newBooking = {
         bookingDate: pickupDate,
         user: user,
@@ -682,36 +719,28 @@ async function createNewBooking(userId){
         bookingNumberOfPassengers: passengers,
         vehicle: vehicle,
         driver: driver,
-        payment: payment
+        payment: payment,
+        status: 'processing'
       };
       console.log(newBooking);
-      // Send POST request to API with the new booking object as the request body
+
       fetch('http://localhost:8080/api/v1/bookings', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json'
         },
-        body: JSON.stringify({
-            bookingDate: pickupDate,
-            user: {id: 1, userName: 'test', userEmail: 'test', userPassword: 'test1', userPhoneNumber: '84', bookings: []},
-            bookingPickUpLocation: pickupLocation,
-            bookingDropOffLocation: destination,
-            bookingPickUpTime: pickupTime,
-            bookingDropOffTime: arrivalTime,
-            bookingNumberOfPassengers: passengers,
-            vehicle: null,
-            driver: null,
-            payment: null
-          })
+        body: JSON.stringify(newBooking)
       })
-      .then(response => {
-        console.log("response ne", response.text());
+      .then(response => response.json())
+      .then(data => {
+        const bookingId = data.id; 
+        const bookingIdElement = document.getElementById('booking-id');
+        bookingIdElement.textContent = `Booking Id: ${bookingId}`;
       })
       .catch(error => {
         console.log(error);
       });
     });
-    console.log("Booking id ne he he", createNewBooking.id);
 }
 
 function getUserById(userId){
@@ -762,11 +791,108 @@ function getPaymentById(paymentId){
     });
 }
 
-
-
-
-function fetchBooking(){
-
+//----------------BOOKING-----------------
+function fetchBooking(userId) {
+    fetch('http://localhost:8080/api/v1/bookings')
+      .then(response => response.json())
+      .then(schedules => {
+        writeSchedule(sortSchedules(filterSchedules(schedules.filter(schedule => schedule.user.id === parseInt(userId)))));
+      })
+      .catch(error => {
+        console.error('Error:', error);
+      });
 }
 
+function filterSchedules(schedules) {
+    const searchDate = document.getElementById('search-date').value;
+    const searchID = document.getElementById('search').value;
+    const paymentMethod = document.getElementById('payment-method').value;
 
+    return schedules.filter(schedule => {
+        if (searchDate && schedule.bookingDate !== searchDate) {
+            return false;
+        }
+
+        if (searchID && !containsSearchID(schedule, searchID)) {
+            return false;
+        }
+
+        if (paymentMethod && schedule.payment.paymentType !== paymentMethod) {
+            return false;
+        }
+        return true;
+    });
+}
+
+function containsSearchID(schedule, searchID) {
+    const id = parseInt(schedule.id);
+    return id === parseInt(searchID);
+    }
+
+    function sortSchedules(schedules) {
+    return schedules.sort((a, b) => {
+        const dateComparison = new Date(a.bookingDate) - new Date(b.bookingDate);
+        if (dateComparison !== 0) {
+        return dateComparison;
+        }
+
+        return a.bookingPickUpTime.localeCompare(b.bookingPickUpTime);
+    });
+}
+
+function writeSchedule(schedules) {
+    const table = document.querySelector('.schedule-table');
+  
+    while (table.firstChild) {
+      table.removeChild(table.firstChild);
+    }
+  
+    const tableHeader = document.createElement('tr');
+    tableHeader.innerHTML = `
+      <th>Booking ID</th>
+      <th>Booking Date</th>
+      <th>Pick Up Time</th>
+      <th>Pick Up Location</th>
+      <th>Destination</th>
+      <th>Arrival Time</th>
+      <th>User Name</th>
+      <th>Passengers</th>
+      <th>Car Plate</th>
+      <th>Driver Name</th>
+      <th>Payment Method</th>
+      <th>Total</th>
+      <th>Payment Status</th>
+    `;
+    table.appendChild(tableHeader);
+  
+    if (schedules.length === 0) {
+      const noBookingsRow = document.createElement('tr');
+      const noBookingsCell = document.createElement('td');
+      noBookingsCell.setAttribute('colspan', '13');
+      noBookingsCell.textContent = 'No bookings found.';
+      noBookingsCell.classList.add('no-bookings-message');
+      noBookingsRow.appendChild(noBookingsCell);
+      table.appendChild(noBookingsRow);
+    } else {
+      schedules.forEach(schedule => {
+        const row = document.createElement('tr');
+        row.innerHTML = `
+          <td>${schedule.id}</td>
+          <td>${schedule.bookingDate}</td>
+          <td>${schedule.bookingPickUpTime}</td>
+          <td>${schedule.bookingPickUpLocation}</td>
+          <td>${schedule.bookingDropOffLocation}</td>
+          <td>${schedule.bookingDropOffTime}</td>
+          <td>${schedule.user.userName}</td>
+          <td>${schedule.bookingNumberOfPassengers}</td>
+          <td>${schedule.vehicle.plate}</td>
+          <td>${schedule.driver.driverName}</td>
+          <td>${schedule.payment.paymentType}</td>
+          <td>${schedule.payment.paymentAmount}</td>
+          <td>${schedule.payment.paymentStatus}</td>
+        `;
+        table.appendChild(row);
+      });
+    }
+}
+  

@@ -123,15 +123,6 @@ label {
     transition: 0.3s;
 }
 
-.forgot {
-    color: black;
-    font-size: 14px;
-    text-decoration: none;
-    margin: 15px 0px;
-    padding-bottom: 5px;
-    border-bottom: 2px solid #EEE;
-}
-
 button {
     border-radius: 20px;
     border: 1px solid #FFCD6B;

@@ -33,13 +33,52 @@
     <body>
         <div class="container-general">
             <div class="schedule">
-                <h4>Schedule</h4> <br>
+                <h4>Schedule</h4>
+
+                <form id="filter-form" class="filter-container">
+                    <label for="search-date">Date:</label>
+                    <input type="date" id="search-date" class="search-date">
+
+                    <label for="search">Search:</label>
+                    <input type="text" id="search" name="search" placeholder="User, Vehicle or Driver">
+                    
+                    <label for="payment-method">Payment Method:</label>
+                    <select id="payment-method" name="payment-method">
+                      <option value=""></option>
+                      <option value="banking">Banking</option>
+                      <option value="cash">Cash</option>
+                    </select>
+
+                    <label for="payment-status">Payment Status:</label>
+                    <select id="payment-status" name="payment-status">
+                      <option value=""></option>
+                      <option value="paid">Paid</option>
+                      <option value="unpaid">Unpaid</option>
+                    </select>
+
+                    <label for="process">Process:</label>
+                    <select id="process" name="process">
+                      <option value=""></option>
+                      <option value="processing">Processing</option>
+                      <option value="finish">Finish</option>
+                    </select>
+
+                    <button>Search</button>
+                </form>
+
                 <table class="schedule-table"></table>
             </div>
         </div>       
         
         <script src="adminScript.js"></script>
         <script>
+            const searchButton = document.querySelector('button');
+            searchButton.addEventListener('click', function(event) {
+                event.preventDefault(); 
+                searchButton.dataset.clicked = 'true';
+                fetchBooking();
+            });
+
             fetchBooking();
             
             const adminAccountSelect = document.getElementById("admin-account");

@@ -72,11 +72,21 @@
             let form = document.querySelector('form');
             form.addEventListener('submit', (event) => {
                 event.preventDefault();
+
+                document.querySelector('.error-message').textContent = '';
+                document.querySelector('.success-message').textContent = '';
+
                 let name = document.querySelector('#name').value;
                 let phone = document.querySelector('#phone').value;
                 let license = document.querySelector('#license').value;
                 let experience = document.querySelector('#experience').value;
                 let password = document.querySelector('#password').value;
+
+                const error = validateDriverInputs(phone, license, parseInt(experience));
+                if(error){
+                    document.querySelector('.error-message').textContent = error;
+                    return;
+                }
 
                 const updatedDriver = {
                     id: driverId,
