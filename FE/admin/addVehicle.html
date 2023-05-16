@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="en">
     <head>
@@ -44,20 +45,19 @@
                     </div>
 
                     <label for="brand">Brand:</label>
-                    <input type="text" id="brand" required pattern=".{1,}">
+                    <input type="text" id="brand">
 
                     <label for="name">Name:</label>
-                    <input  type="text" id="name"required pattern=".{1,}">
+                    <input  type="text" id="name">
 
                     <label for="seat">Seats:</label>
-                    <input  type="text" id="seat"required pattern=".{1,}">
+                    <input  type="text" id="seat">
 
                     <label for="colour">Colour:</label>
-                    <input type="text" id="colour" required pattern=".{1,}">
+                    <input type="text" id="colour">
 
                     <label for="plate">Plate:</label>
-                    <input  type="text" id="plate" required pattern=".{1,}">
-                    <button id="add-csv-button">Add By CSV</button>
+                    <input  type="text" id="plate">
                     
                     <div class="button-group">
                         <button type="button" onclick="window.location.href='adminVehicle.html'" class="go-back-button">Go back</button>
@@ -82,25 +82,37 @@
                 let colour = document.querySelector('#colour').value;
                 let plate = document.querySelector('#plate').value;
 
-                const error = validateVehicleInputs(seats, plate);
-                if(error){
-                    document.querySelector('.error-message').textContent = error;
-                    return;
+                const fileInput = document.getElementById('csv-file');
+                if (fileInput.files.length > 0) {
+                    const file = fileInput.files[0];
+                    const reader = new FileReader();
+                    reader.onload = (event) => {
+                        const csvData = event.target.result;
+                        addVehiclesFromCSV(csvData);
+                    };
+                    reader.onerror = (event) => {
+                        console.error('Error reading CSV file:', event.target.error);
+                    };
+                    reader.readAsText(file);
+                } else {
+                    const error = validateVehicleInputs(brand, name, seats, plate, colour);
+                    if(error){
+                        document.querySelector('.error-message').textContent = error;
+                        return;
+                    }
+
+                    const newVehicle = {
+                        id : "null",
+                        name: name, 
+                        brand: brand, 
+                        color: colour, 
+                        plate: plate, 
+                        seatNumber: seats
+                    };
+
+                    addVehicle(newVehicle);
                 }
-
-                const newVehicle = {
-                    id : "null",
-                    name: name, 
-                    brand: brand, 
-                    color: colour, 
-                    plate: plate, 
-                    seatNumber: seats
-                };
-
-                addVehicle(newVehicle);
             });
-
-            document.getElementById('add-csv-button').addEventListener('click', handleAddVehicleByCSV);
 
             const adminAccountSelect = document.getElementById("admin-account");
             adminAccountSelect.addEventListener("change", function() { logOut(adminAccountSelect.value) });

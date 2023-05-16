@@ -91,6 +91,14 @@ body{
     padding: 0px 40px;
 }
 
+.message-container .success-message {
+    color: green;
+}
+
+.message-container .error-message {
+    color: red;
+}
+
 form{
     height: 100%;
     display: flex;

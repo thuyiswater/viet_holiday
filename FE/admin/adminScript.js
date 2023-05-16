@@ -246,7 +246,7 @@ function writeDriver(driverList, drivers) {
 
 //---------------ADD DRIVER---------------
 function validateDriverInputs(phone, license, yearOfExperience) {
-    const licenseRegex = /^d{9}$/;
+    const licenseRegex = /^\d{9}$/;
     const phoneRegex = /^84\d{9}$/; 
     
     if (!licenseRegex.test(license)) {
@@ -257,7 +257,7 @@ function validateDriverInputs(phone, license, yearOfExperience) {
       return "Invalid phone number. Please enter a valid phone number!";
     }
   
-    if (!Number.isInteger(yearOfExperience) || yearOfExperience < 1) {
+    if (!Number.isInteger(yearOfExperience) && yearOfExperience < 1) {
       return "Invalid year of experience!";
     }
   
@@ -434,14 +434,14 @@ function fetchVehicle(vehicleList){
 
 //---------------ADD VEHICLE---------------
 function validateVehicleInputs(seats, plate) {
-    const validSeats = [4, 7, 16, 29, 35, 45];
+    const validSeats = [4, 7, 16, 29, 36, 45];
     const plateRegex = /^\d{2}[A-Z]\s\d{5}$/;
     
-    if (!validSeats.includes(parseInt(seats))) {
+    if (!validSeats === seats) {
       return "Invalid number of seats. Please enter a valid number of seats: 4, 7, 16, 29, 35, or 45.";
     }
   
-    if (!plateRegex.test(plate)) {
+    if (!plateRegex === plate) {
       return "Invalid license plate format. Please enter a valid plate in the format DDC DDDDD!";
     }
   

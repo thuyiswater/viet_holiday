@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="en">
     <head>
@@ -44,21 +45,20 @@
                     </div>
 
                     <label for="name">Name:</label>
-                    <input  type="text" id="name"required pattern=".{1,}">
+                    <input  type="text" id="name">
 
                     <label for="phone">Phone:</label>
-                    <input type="text" id="phone" required pattern=".{1,}">
+                    <input type="text" id="phone">
 
                     <label for="license">License:</label>
-                    <input type="text" id="license" required pattern=".{1,}">
+                    <input type="text" id="license">
 
                     <label for="experience">Year Of Experience:</label>
-                    <input  type="text" id="experience" required pattern=".{1,}">
+                    <input  type="text" id="experience">
 
                     <label for="password">Password:</label>
                     <input  type="text" id="password" value="1" disabled>
-                    <button id="add-csv-button">Add By CSV</button>
-
+                    
                     <div class="button-group">
                         <button type="button" onclick="window.location.href='adminDriver.html'" class="go-back-button">Go back</button>
                         <button type="submit" name="create-button" value="create-button"class="create-button">Create</button>
@@ -82,25 +82,37 @@
                 let experience = document.querySelector('#experience').value;
                 let password = document.querySelector('#password').value;
 
-                const error = validateDriverInputs(phone, license, experience);
-                if(error){
-                    document.querySelector('.error-message').textContent = error;
-                    return;
+                const fileInput = document.getElementById('csv-file');
+                if (fileInput.files.length > 0) {
+                    const file = fileInput.files[0];
+                    const reader = new FileReader();
+                    reader.onload = (event) => {
+                        const csvData = event.target.result;
+                        addDriversFromCSV(csvData);
+                    };
+                    reader.onerror = (event) => {
+                        console.error('Error reading CSV file:', event.target.error);
+                    };
+                    reader.readAsText(file);
+                } else {
+                    const error = validateDriverInputs(phone, license, experience);
+                    if(error){
+                        document.querySelector('.error-message').textContent = error;
+                        return;
+                    }
+
+                    const newDriver = {
+                        driverName: name,
+                        driverPhoneNumber: phone,
+                        driverLicenseNumber: license,
+                        driverYearOfExperience: experience,
+                        driverPassword: password,
+                        driverAvatar: "none"
+                    };
+
+                    addDriver(newDriver);
                 }
-
-                const newDriver = {
-                    driverName: name,
-                    driverPhoneNumber: phone,
-                    driverLicenseNumber: license,
-                    driverYearOfExperience: experience,
-                    driverPassword: password,
-                    driverAvatar: "none"
-                };
-
-                addDriver(newDriver);
             });
-
-            document.getElementById('add-csv-button').addEventListener('click', handleAddDriverByCSV);
 
             const adminAccountSelect = document.getElementById("admin-account");
             adminAccountSelect.addEventListener("change", function() { logOut(adminAccountSelect.value) });

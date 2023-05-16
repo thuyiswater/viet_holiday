@@ -36,43 +36,52 @@
                 </div>
     
                 <form class="my-form">
-                    <h4>Booking Details</h4>
-                    <div>
+                    <div class="right">
+                        <h4>Booking Details</h4>
+                        <p>Name</p>
                         <input type="text" class="name" id="name" disabled>
+                        <p>Email</p>
                         <input type="text" class="email" id="email" disabled>
-                    </div>
+                    
+                        <p>Phone</p>
                         <input type="text" class="phone" id="phone" disabled>
+                        <p>Pick Up Location</p>
                         <input type="text" class="pick-up" id="pick-up" disabled> 
+                        <p>Drop Off Location</p>
                         <input type="text" class="destination" id="destination" disabled>
-                    <div>
+                
+                        <p>Pick Up Time</p>
                         <input type="date" class="date" id="date" disabled>
+                        <p>Pcik Up Time</p>
                         <input type="time" class="time" id="time" disabled>
-                    </div>
-                    <select name="payment" id="payment" class="payment">
-                        <option value="" selected disabled>Please select a payment method</option>
-                        <option value="banking">Banking</option>
-                        <option value="cash">Cash</option>
-                    </select>
 
-                    <h4>Vehicle Details</h4>
-                    <input type="text" class="brand" id="brand" disabled> 
-                    <input type="text" class="car-name" id="car-name" disabled>
-                    <input type="text" class="seatNumber" id="seatNumber" disabled>  
-                    <input type="text" class="colour" id="colour" disabled> 
-                    <input type="text" class="plate" id="plate" disabled> 
+                        <select name="payment" id="payment" class="payment">
+                            <option value="" selected disabled>Please select a payment method</option>
+                            <option value="banking">Banking</option>
+                            <option value="cash">Cash</option>
+                        </select>
 
-                    <h4>Driver Details</h4>
-                    <div class="name-field">
-                        <input type="text" class="driver-name" id="driver-name" disabled>
-                        <input type="text" class="license" id="license" disabled>
+                        <div class="name-field">
+                            <h4>Driver Details</h4>
+                            <input type="text" class="driver-name" id="driver-name" disabled>
+                            <input type="text" class="license" id="license" disabled>
+                            <input type="text" class="driver-phone" id="driver-phone" disabled>
+                        </div>
                     </div>
-                    <input type="text" class="driver-phone" id="driver-phone" disabled>
+
+                    <div class="left">
+                        <h4>Vehicle Details</h4>
+                        <input type="text" class="brand" id="brand" disabled> 
+                        <input type="text" class="car-name" id="car-name" disabled>
+                        <input type="text" class="seatNumber" id="seatNumber" disabled>  
+                        <input type="text" class="colour" id="colour" disabled> 
+                        <input type="text" class="plate" id="plate" disabled> 
+                    </div>
+
                     <br>
-
                     <button class="confirm-button">CONFIRM</button>
                 </form>
             </div>  
-     
      
             <div class="right-panel">
                 <span class="order-summary">Summary</span> <br>

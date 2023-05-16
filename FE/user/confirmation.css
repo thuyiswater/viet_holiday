@@ -151,53 +151,39 @@ li > a:hover::after, li > a.active-nav::after {
     font-style: italic;
 }
 
+.my-form {
+    margin-top: 30px;
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    grid-gap: 10px;
+}
+
+.left, .right {
+    padding: 10px;
+}
+
+
 form h4 {
-    margin: 20px 0px;
     font-size: 36px;
 }
 
-form {
-    width: 60%;
-}
-
-
-form > * {
+input, select {
     margin-bottom: 20px;
-}
-
-.phone,
-.pick-up,
-.destination,
-.brand,
-.car-name,
-.seatNumber,
-.colour,
-.plate,
-.driver-phone {
+    border-radius: 5px;
     padding: 10px;
-    width: 100%;
-    background-color: lightgrey;
-}
-
-.name,
-.email,
-.date,
-.time,
-.payment,
-.driver-name,
-.license {
-    padding: 10px;
-    width: 49.65%;
+    width: 70%;
     background-color: lightgrey;
 }
 
 .confirm-button {
     width: 20%;
-    margin:  0px 40%;
+    margin:  0px -55px;
     padding: 10px;
     background-color: #FFCD6B;
     color: white;
     letter-spacing: 1px;
+    border-radius: 5px;
+    
 }
 
 
