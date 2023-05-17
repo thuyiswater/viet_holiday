@@ -116,7 +116,9 @@ function writeSchedule(schedules) {
           <td>${schedule.payment.paymentStatus}</td>
           <td>${schedule.status}</td>
           <td>
-                <button class="edit-button" data-schedule-id="${schedule.id}">Edit</button>
+                <button style="border-radius: 5px; padding: 10px; background-color: rgba(255, 205, 107, 0.5)" class="edit-button" data-schedule-id="${schedule.id}">
+                Edit
+                </button>
             </td>
         `;
         table.appendChild(row);

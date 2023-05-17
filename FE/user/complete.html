@@ -97,9 +97,25 @@
 
             const passengers = parseInt(childrenInput) + parseInt(adultInput);
 
-            if (userId) {
-                token(userId);
-            }
+            const homeLink = document.querySelector('a[href="home.html"]');
+            homeLink.href = `home.html?user.id=${userId}`;
+
+            const aboutUsLink = document.querySelector('a[href="about_us.html"]');
+            aboutUsLink.href = `about_us.html?user.id=${userId}`;
+
+            const bookingLink = document.querySelector('a[href="booking.html"]');
+            bookingLink.href = `booking.html?$user.id=${userId}`;
+
+            const vehicleLink = document.querySelector('a[href="vehicle.html"]');
+            vehicleLink.href = `vehicle.html?user.id=${userId}`;
+
+            getUserName(userId)
+            .then(userName => {
+                welcomeUser(userName);
+            })
+            .catch(error => {
+            console.error('Error:', error);
+            });
 
             createNewBooking(userId);
         

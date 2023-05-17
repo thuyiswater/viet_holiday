@@ -104,10 +104,10 @@ li > a:hover::after, li > a.active-nav::after {
 }
 
 .container-general{
-    background: url('../image/background.jpg');
+    background: url('../image/user-background.jpeg');
     background-repeat: no-repeat;
     background-size: cover;
-    height: 95vh;
+    height: 105vh;
     margin-top: -10px;
     position: relative;
 
@@ -122,7 +122,7 @@ li > a:hover::after, li > a.active-nav::after {
 .container {
     width: 25%;
     padding: 20px;
-    margin-top: 200px;
+    margin-top: 230px;
     text-align: left;
     background-color: rgba(255, 205, 107, 0.5);
     border: none;
@@ -331,7 +331,6 @@ li > a:hover::after, li > a.active-nav::after {
     display: flex;
     flex-direction: column;
     background: #474745;
-
     padding: 25px 5%;
     color: white;
 }

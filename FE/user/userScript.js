@@ -736,11 +736,28 @@ async function createNewBooking(userId){
         const bookingId = data.id; 
         const bookingIdElement = document.getElementById('booking-id');
         bookingIdElement.textContent = `Booking Id: ${bookingId}`;
+        updateBrowserHistory();
       })
       .catch(error => {
         console.log(error);
       });
     });
+}
+
+function updateBrowserHistory() {
+    const url = new URL(window.location.href);
+    url.searchParams.delete('pickupLocation');
+    url.searchParams.delete('destination');
+    url.searchParams.delete('pickupDate');
+    url.searchParams.delete('pickupTime');
+    url.searchParams.delete('travelingTime');
+    url.searchParams.delete('childrenInput');
+    url.searchParams.delete('adultInput');
+    url.searchParams.delete('vehicleId');
+    url.searchParams.delete('driverId');
+    url.searchParams.delete('paymentId');
+    const stateObj = { url: url.toString(), pageTitle: document.title };
+    history.replaceState(stateObj, '', url.toString());
 }
 
 function getUserById(userId){
@@ -894,5 +911,30 @@ function writeSchedule(schedules) {
         table.appendChild(row);
       });
     }
+}
+
+//---------------------VEHICLE-------------------
+function fetchVehicle(vehicleList){
+    fetch('http://localhost:8080/api/v1/vehicles')
+    .then(response => response.json())
+    .then(vehicles => {
+        vehicles.forEach(vehicle => {
+            const vehicleElement = document.createElement('div');
+            vehicleElement.innerHTML = `<span class="attribute-name">Brand: </span>${vehicle.brand}<br>
+                                        <span class="attribute-name">Name: </span>${vehicle.name}<br>
+                                        <span class="attribute-name">Seats: </span>${vehicle.seatNumber}<br>
+                                        <span class="attribute-name">Colour: </span>${vehicle.color}<br>
+                                        <span class="attribute-name">Plate: </span>${vehicle.plate}<br>`;
+            vehicleElement.classList.add('vehicle');
+            vehicleElement.setAttribute('data-brand', vehicle.brand);
+            vehicleElement.setAttribute('data-name', vehicle.name);
+            vehicleElement.setAttribute('data-seat', vehicle.seatNumber);
+
+            vehicleList.appendChild(vehicleElement);
+        });
+    })
+    .catch(error => {
+        console.error('Error:', error);
+    })
 }
   

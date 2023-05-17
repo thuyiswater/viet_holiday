@@ -147,8 +147,8 @@ li > a:hover::after, li > a.active-nav::after {
 
 .background .car1 {
     object-fit: cover;
-    width: 1515px;
-    height: 540px;
+    width: 1497px;
+    height: 550px;
     display: block;
     margin: 30px auto;
 }
@@ -184,13 +184,14 @@ li > a:hover::after, li > a.active-nav::after {
 .box3 {
     text-align: center;
     margin-top: 100px;
+    padding: 0 20px;
 }
 
 .footer-img {
     position: relative;
     object-fit: cover;
-    width: 1515px;
-    height: 540px;
+    width: 1497px;
+    height: 560px;
     display: block;
     margin-top: 50px;
     filter: opacity(80%);
@@ -209,6 +210,8 @@ li > a:hover::after, li > a.active-nav::after {
 }
 
 .group-id {
-    text-align: center;
     font-style: italic;
+    text-align: center;
+    background-color: #474745;
+    color: white;
 }
