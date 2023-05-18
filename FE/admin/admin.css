@@ -134,11 +134,14 @@ h4 {
 }
 
 .filter-container select,
-.filter-container option,
-.filter-container input {
+.filter-container option {
     border: none;
     outline: none;
-    font-size: 18px;
+    font-size: 15px;
+}
+
+.filter-container input::placeholder {
+    display: left;
 }
 
 .filter-container button {
@@ -167,6 +170,13 @@ tr:nth-child(odd):not(:first-child) {
 
 td {
     text-align: right;
+    width: 50px;
+}
+
+.edit-button {
+    border-radius: 5px; 
+    padding: 10px; 
+    background-color: rgba(255, 205, 107, 0.5)
 }
 
 .schedule-table {
