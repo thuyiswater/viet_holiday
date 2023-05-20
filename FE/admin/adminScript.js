@@ -754,5 +754,95 @@ function editDriverProfile(driverId, event) {
     });
 }
 
+function drawCharts(){
+    fetch('http://localhost:8080/api/v1/bookings')
+    .then(response => response.json())
+    .then(jsonData => {
+        const monthlyRevenueData = jsonData.reduce((acc, entry) => {
+            const date = new Date(entry.bookingDate);
+            const monthYear = date.toLocaleString('en-us', { month: 'long', year: 'numeric' });
+            const revenue = Number(entry.payment.paymentAmount);
+            
+            if (!acc[monthYear]) {
+                acc[monthYear] = 0;
+            }
+            acc[monthYear] += revenue;
+            
+            return acc;
+        }, {});
+
+        const monthlyRevenueMonths = Object.keys(monthlyRevenueData);
+        const monthlyRevenueAmounts = Object.values(monthlyRevenueData);
+        const revenueTrace = {
+            x: monthlyRevenueMonths,
+            y: monthlyRevenueAmounts,
+            type: 'bar',
+            name: 'Monthly Revenue'
+        };
+        const revenueLayout = {
+            title: {
+                text: '<span style="font-weight: bold;">Monthly Revenue</span>',
+                font: {
+                size: 18
+                }
+            },
+            xaxis: { title: 'Month, Year' },
+            yaxis: { title: 'Total Revenue' }
+        };
+        Plotly.newPlot('revenue-chart', [revenueTrace], revenueLayout);
 
 
+        const driverDistributionData = jsonData.map(entry => entry.driver.driverName);
+        const driverCounts = {};
+        driverDistributionData.forEach(driver => {
+            driverCounts[driver] = (driverCounts[driver] || 0) + 1;
+        });
+        const driverNames = Object.keys(driverCounts);
+        const driverCountsData = driverNames.map(driver => driverCounts[driver]);
+        const driverTrace = {
+            labels: driverNames,
+            values: driverCountsData,
+            type: 'pie',
+            name: 'Driver Distribution'
+        };
+        const driverLayout = {
+            title: {
+                text: '<span style="font-weight: bold;">Driver Distribution</span>',
+                font: {
+                size: 18
+                }
+            },
+        };
+        Plotly.newPlot('driver-chart', [driverTrace], driverLayout);
+
+        const tourData = jsonData.map(entry => ({ pickUp: entry.bookingPickUpLocation, dropOff: entry.bookingDropOffLocation }));
+        const tourDistribution = {};
+        tourData.forEach(entry => {
+            const key = `${entry.pickUp} - ${entry.dropOff}`;
+            tourDistribution[key] = (tourDistribution[key] || 0) + 1;
+        });
+        const sortedTourDistribution = Object.entries(tourDistribution).sort((a, b) => b[1] - a[1]);
+        const tourKeys = sortedTourDistribution.map(entry => entry[0]);
+        const tourValues = sortedTourDistribution.map(entry => entry[1]);
+
+        const tourTrace = {
+            x: tourKeys,
+            y: tourValues,
+            type: 'bar',
+            name: 'Tour Distribution'
+        };
+
+        const tourLayout = {
+            title: {
+                text: '<span style="font-weight: bold;">Tour Distribution</span>',
+                font: {
+                    size: 18
+                }
+            },
+            xaxis: { title: 'Tour' },
+            yaxis: { title: 'Count' }
+        };
+        Plotly.newPlot('tour-chart', [tourTrace], tourLayout);
+    })
+    .catch(error => console.error('Error fetching data:', error));
+}
