@@ -14,7 +14,7 @@
 }
 
 body {
-    height: 100vh;
+    height: fit-content;
 }
 
 .header{
@@ -218,76 +218,12 @@ hr {
     display: flex;
     flex-direction: column;
     background: #474745;
-    padding: 25px 5%;
     color: white;
-}
-.footer-top {
-    display: flex;
-
-}
-
-.footer-top h2 {    
-    font-size: 36px;
-    font-weight: 700;
-    letter-spacing: 0.5px;
-}
-
-.footer-top input {
-    width: 300px;
-    padding: 10px;
-    margin-top: 10px;
-    background: black;
-    border: none;
-    outline: none;
-}
-
-.footer-top button {
-    width: 100px;
-    padding: 10px;
-    margin-top: 10px;
-    background: #FFCD6B;
-    color: white;
-    border: none;
-    outline: none;
-}
-
-.footer-top {
-    display: flex;
-    flex-direction: row;
-}
-
-.subscribe-container {
-    width: 100%;
-    text-align: left;
-}
-
-.logo-container {
-    text-align: right;
-    display: flex;
-    flex-direction: column;
-}
-
-.footer-bottom {
-    display: flex;
-    flex-direction: row;
-    margin-top: 25px;
-
-}
-
-.footer-contact-info {
-width: 100%;
-color: white;
-text-align: center;
-border-right: 1px solid gray;  
-}
-
-.working-hours {
-border-right: none;
 }
 
 .group-id {
-    margin: 25px 0 0;
-    text-align: center;
     font-style: italic;
     text-align: center;
+    background-color: #474745;
+    color: white;
 }

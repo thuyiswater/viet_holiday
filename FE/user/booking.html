@@ -57,7 +57,6 @@
         <script>
             const searchParams = new URLSearchParams(window.location.search);
             const userId = searchParams.get('user.id');
-            console.log(userId);
 
             if (userId) {
                 token(userId);

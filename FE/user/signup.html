@@ -73,6 +73,13 @@
         let form = document.querySelector('form');
         form.addEventListener('submit', (event) => { signUp(event) });
 
+        const searchParams = new URLSearchParams(window.location.search);
+        const email = searchParams.get('email');
+        const emailInput = document.getElementById('email');
+
+        if (email) {
+            emailInput.value = email;
+        }
     </script>
 </body>
 </html>

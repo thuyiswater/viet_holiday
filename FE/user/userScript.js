@@ -328,6 +328,11 @@ function scrollFunction() {
     }
 }
 
+function subscribe() {
+    const email = document.getElementById('email').value;
+    window.location.href = `signup.html?email=${email}`;
+  }  
+
 //------------------SEARCH PAGE-------------------
 function searchVehicle(userId, seatsType) {
     console.log("searchVehicle");
