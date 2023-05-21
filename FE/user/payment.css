@@ -15,6 +15,7 @@
 
 body {
     height: fit-content;
+    background-color: rgba(255, 205, 107, 0.5);
 }
 
 .header{
@@ -105,8 +106,8 @@ li > a:hover::after, li > a.active-nav::after {
 }
 
 .container-general{
-    background-color: rgba(255, 205, 107, 0.5);
-    margin-top: 7%;
+    margin-top: 4%;
+    margin-bottom: 20%;
     position: relative;
     padding: 10px 2.5%;
     display: flex;
@@ -160,6 +161,10 @@ li > a:hover::after, li > a.active-nav::after {
     background: #474745;
     padding: 25px 5%;
     color: white;
+    position: fixed;
+    left: 0;
+    bottom: 0;
+    width: 100%;
 }
 .footer-top {
     display: flex;

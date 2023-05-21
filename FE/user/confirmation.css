@@ -167,7 +167,8 @@ form h4 {
     font-size: 36px;
 }
 
-input, select {
+form input, 
+form select {
     margin-bottom: 20px;
     border-radius: 5px;
     padding: 10px;
