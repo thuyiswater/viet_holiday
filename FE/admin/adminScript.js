@@ -1,4 +1,98 @@
 //------------------HOME----------------
+function drawCharts(){
+    fetch('http://localhost:8080/api/v1/bookings')
+    .then(response => response.json())
+    .then(jsonData => {
+        const monthlyRevenueData = jsonData.reduce((acc, entry) => {
+            const date = new Date(entry.bookingDate);
+            const monthYear = date.toLocaleString('en-us', { month: 'long', year: 'numeric' });
+            const revenue = Number(entry.payment.paymentAmount);
+            
+            if (!acc[monthYear]) {
+                acc[monthYear] = 0;
+            }
+            acc[monthYear] += revenue;
+            
+            return acc;
+        }, {});
+
+        const monthlyRevenueMonths = Object.keys(monthlyRevenueData);
+        const monthlyRevenueAmounts = Object.values(monthlyRevenueData);
+        const revenueTrace = {
+            x: monthlyRevenueMonths,
+            y: monthlyRevenueAmounts,
+            type: 'bar',
+            name: 'Monthly Revenue'
+        };
+        const revenueLayout = {
+            title: {
+                text: '<span style="font-weight: bold;">Monthly Revenue</span>',
+                font: {
+                size: 18
+                }
+            },
+            xaxis: { title: 'Month, Year' },
+            yaxis: { title: 'Total Revenue' }
+        };
+        Plotly.newPlot('revenue-chart', [revenueTrace], revenueLayout);
+
+
+        const driverDistributionData = jsonData.map(entry => entry.driver.driverName);
+        const driverCounts = {};
+        driverDistributionData.forEach(driver => {
+            driverCounts[driver] = (driverCounts[driver] || 0) + 1;
+        });
+        const driverNames = Object.keys(driverCounts);
+        const driverCountsData = driverNames.map(driver => driverCounts[driver]);
+        const driverTrace = {
+            labels: driverNames,
+            values: driverCountsData,
+            type: 'pie',
+            name: 'Driver Distribution'
+        };
+        const driverLayout = {
+            title: {
+                text: '<span style="font-weight: bold;">Driver Distribution</span>',
+                font: {
+                size: 18
+                }
+            },
+        };
+        Plotly.newPlot('driver-chart', [driverTrace], driverLayout);
+
+        const tourData = jsonData.map(entry => ({ pickUp: entry.bookingPickUpLocation, dropOff: entry.bookingDropOffLocation }));
+        const tourDistribution = {};
+        tourData.forEach(entry => {
+            const key = `${entry.pickUp} - ${entry.dropOff}`;
+            tourDistribution[key] = (tourDistribution[key] || 0) + 1;
+        });
+        const sortedTourDistribution = Object.entries(tourDistribution).sort((a, b) => b[1] - a[1]);
+        const tourKeys = sortedTourDistribution.map(entry => entry[0]);
+        const tourValues = sortedTourDistribution.map(entry => entry[1]);
+
+        const tourTrace = {
+            x: tourKeys,
+            y: tourValues,
+            type: 'bar',
+            name: 'Tour Distribution'
+        };
+
+        const tourLayout = {
+            title: {
+                text: '<span style="font-weight: bold;">Tour Distribution</span>',
+                font: {
+                    size: 18
+                }
+            },
+            xaxis: { title: 'Tour' },
+            yaxis: { title: 'Count' }
+        };
+        Plotly.newPlot('tour-chart', [tourTrace], tourLayout);
+    })
+    .catch(error => console.error('Error fetching data:', error));
+}
+
+//------------------BOOKING----------------
 function fetchBooking() {
     fetch('http://localhost:8080/api/v1/bookings')
     .then(response => response.json())
@@ -629,6 +723,7 @@ function scheduleDisplay(schedules) {
         <th>User Name</th>
         <th>User's Phone</th>
         <th>Payment Method</th>
+        <th>Amount</th>
         <th></th>
     `;
     table.appendChild(tableHeader);
@@ -641,9 +736,10 @@ function scheduleDisplay(schedules) {
             <td>${schedule.bookingPickUpLocation}</td>
             <td>${schedule.bookingDropOffLocation}</td>
             <td>${schedule.bookingDropOffTime}</td>
-            <td>${schedule.user.id}</td>
+            <td>${schedule.user.userName}</td>
             <td>${schedule.user.userPhoneNumber}</td>
             <td>${schedule.payment.paymentType}</td>
+            <td>${schedule.payment.paymentAmount}</td>
             <td>
                 <button class="finish-button" data-schedule-id="${schedule.id}">Finish</button>
             </td>
@@ -752,97 +848,4 @@ function editDriverProfile(driverId, event) {
         console.log(error);
         document.querySelector('.error-message').textContent = 'An error occurred. Please try again later.';
     });
-}
-
-function drawCharts(){
-    fetch('http://localhost:8080/api/v1/bookings')
-    .then(response => response.json())
-    .then(jsonData => {
-        const monthlyRevenueData = jsonData.reduce((acc, entry) => {
-            const date = new Date(entry.bookingDate);
-            const monthYear = date.toLocaleString('en-us', { month: 'long', year: 'numeric' });
-            const revenue = Number(entry.payment.paymentAmount);
-            
-            if (!acc[monthYear]) {
-                acc[monthYear] = 0;
-            }
-            acc[monthYear] += revenue;
-            
-            return acc;
-        }, {});
-
-        const monthlyRevenueMonths = Object.keys(monthlyRevenueData);
-        const monthlyRevenueAmounts = Object.values(monthlyRevenueData);
-        const revenueTrace = {
-            x: monthlyRevenueMonths,
-            y: monthlyRevenueAmounts,
-            type: 'bar',
-            name: 'Monthly Revenue'
-        };
-        const revenueLayout = {
-            title: {
-                text: '<span style="font-weight: bold;">Monthly Revenue</span>',
-                font: {
-                size: 18
-                }
-            },
-            xaxis: { title: 'Month, Year' },
-            yaxis: { title: 'Total Revenue' }
-        };
-        Plotly.newPlot('revenue-chart', [revenueTrace], revenueLayout);
-
-
-        const driverDistributionData = jsonData.map(entry => entry.driver.driverName);
-        const driverCounts = {};
-        driverDistributionData.forEach(driver => {
-            driverCounts[driver] = (driverCounts[driver] || 0) + 1;
-        });
-        const driverNames = Object.keys(driverCounts);
-        const driverCountsData = driverNames.map(driver => driverCounts[driver]);
-        const driverTrace = {
-            labels: driverNames,
-            values: driverCountsData,
-            type: 'pie',
-            name: 'Driver Distribution'
-        };
-        const driverLayout = {
-            title: {
-                text: '<span style="font-weight: bold;">Driver Distribution</span>',
-                font: {
-                size: 18
-                }
-            },
-        };
-        Plotly.newPlot('driver-chart', [driverTrace], driverLayout);
-
-        const tourData = jsonData.map(entry => ({ pickUp: entry.bookingPickUpLocation, dropOff: entry.bookingDropOffLocation }));
-        const tourDistribution = {};
-        tourData.forEach(entry => {
-            const key = `${entry.pickUp} - ${entry.dropOff}`;
-            tourDistribution[key] = (tourDistribution[key] || 0) + 1;
-        });
-        const sortedTourDistribution = Object.entries(tourDistribution).sort((a, b) => b[1] - a[1]);
-        const tourKeys = sortedTourDistribution.map(entry => entry[0]);
-        const tourValues = sortedTourDistribution.map(entry => entry[1]);
-
-        const tourTrace = {
-            x: tourKeys,
-            y: tourValues,
-            type: 'bar',
-            name: 'Tour Distribution'
-        };
-
-        const tourLayout = {
-            title: {
-                text: '<span style="font-weight: bold;">Tour Distribution</span>',
-                font: {
-                    size: 18
-                }
-            },
-            xaxis: { title: 'Tour' },
-            yaxis: { title: 'Count' }
-        };
-        Plotly.newPlot('tour-chart', [tourTrace], tourLayout);
-    })
-    .catch(error => console.error('Error fetching data:', error));
 }
