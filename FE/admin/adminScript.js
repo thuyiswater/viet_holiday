@@ -80,7 +80,7 @@ function writeSchedule(schedules) {
       <th>Arrival Time</th>
       <th>User Name</th>
       <th>Passengers</th>
-      <th>Car Plate</th>
+      <th>Vehicle's Plate</th>
       <th>Driver Name</th>
       <th>Payment Method</th>
       <th>Total</th>

@@ -210,7 +210,6 @@ li > a:hover::after, li > a.active-nav::after {
     width: 100%;
     text-align: center;
     background: #474745;
-    padding: 25px 5%;
     color: white;
 }
 
