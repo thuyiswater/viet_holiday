@@ -5,7 +5,125 @@
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <title>Viet Holiday</title>
-        <link rel="stylesheet" href="admin.css">
+        <style>
+            @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@100;200;400;700&display=swap');
+
+            :root {
+                --img-size: 150px
+            }
+
+            *{
+                box-sizing: border-box;
+                margin:0;
+                padding:0;
+                border: 0;
+                font-family: 'Poppins', sans-serif;
+                transition: top 0.3s;
+            }
+
+            body {
+                height: fit-content;
+                width: 100%;
+                background-color: rgba(255, 205, 107, 0.5);
+                display: flex;
+                flex-direction: column;
+                justify-content: center;
+            }
+
+            .header{
+                background-color: white;
+                position: fixed;
+                top: 0;
+                left: 0;
+                width: 100%;
+                padding: 25px 7.5%;
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+                z-index: 100;
+            }
+
+            .header .header-logo {
+                height: auto;
+                width: 150px;
+            }
+
+            .navbar a {
+                position: relative;
+                color: black;
+                font-size: 16px;
+                font-weight: 600;
+                text-decoration: none;
+                margin-right: 30px;
+            }
+
+            li {
+                list-style-type: none;
+                display: inline-block;
+            }
+
+            li > a {
+                color: #333;
+                text-decoration: none;
+                display: inline-block;
+                position: relative;
+            }
+            
+            li > a::after {
+                content: "";
+                display: block;
+                margin: auto;
+                height: 3px;
+                width: 0;
+                top: 5px;
+                background: transparent;
+                transition: 0.3s;
+                transform: translateY(10px);
+            }
+            
+            li > a:hover::after, li > a.active-nav::after {
+                width: 100%;
+                background: black;
+                transform: translateY(0px);
+                opacity: 1;
+            }
+
+            #admin-account {
+                border: none;
+                outline: none;
+                font-size: 16px;
+                font-weight: bold;
+            }
+
+            #admin-account option {
+                font-size: 16px;
+                font-weight: bold;
+                background-color: #FFCD6B;
+                color: black;
+            }
+
+            .container{
+                margin: 9%;
+                width: 80%;
+            }
+
+            .footer {
+                height: fit-content;
+                position:fixed;
+                bottom: 0;
+                left: 0;
+                width: 100%;
+                text-align: center;
+                background-color: #474745;
+            }
+
+            .group-id {
+                font-style: italic;
+                text-align: center;
+                background-color: #474745;
+                color: white;
+            }
+        </style>
     </head>
 
     <header class="header">
@@ -32,7 +150,7 @@
     </header>
 
     <body>
-        <div>
+        <div class="container">
             <div id="revenue-chart" class="revenue-chart"></div>
             <div id="driver-chart" class="driver-chart"></div>
             <div id="tour-chart" class="tour-chart"></div>

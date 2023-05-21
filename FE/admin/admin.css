@@ -103,13 +103,10 @@ li > a:hover::after, li > a.active-nav::after {
 }
 
 .container{
-    height: fit-content;
-    width: 100%;
-    margin-top: 7%;
-    position: relative;
-    padding: 10px 2.5%;
+    margin-top: 9%;
     display: flex;
     flex-direction: column;
+    align-items: center;
 }
 
 .schedule {
