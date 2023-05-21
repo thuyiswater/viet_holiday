@@ -118,7 +118,7 @@ td {
     text-align: right;
 }
 
-.finish-button {
+.finish-button, .edit-button {
     padding: 10px;
     border: none;
     outline: none;
@@ -157,10 +157,12 @@ td {
     width: 100%;
     text-align: center;
     background: #474745;
-    padding: 25px 5%;
     color: white;
 }
 
 .group-id {
     font-style: italic;
+    text-align: center;
+    background-color: #474745;
+    color: white;
 }
