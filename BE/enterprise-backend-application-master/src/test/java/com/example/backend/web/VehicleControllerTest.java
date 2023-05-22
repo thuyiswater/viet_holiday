@@ -30,7 +30,7 @@ class VehicleControllerTest {
     }
 
     @Test
-    public void getAllVehicles_ReturnsListOfVehicles() {
+    public void getAllVehicles() {
         // Arrange
         List<VehicleEntity> vehicles = Arrays.asList(
                 new VehicleEntity("Vehicle 1", "Brand 1", "Plate 1", "Color 1", "4"),
@@ -49,7 +49,7 @@ class VehicleControllerTest {
     }
 
     @Test
-    public void createVehicle_ReturnsSavedVehicle() {
+    public void createVehicle() {
         // Arrange
         VehicleEntity vehicle = new VehicleEntity("Vehicle 1", "Brand 1", "Plate 1", "Color 1", "4");
         when(vehicleRepository.save(any(VehicleEntity.class))).thenReturn(vehicle);
@@ -63,7 +63,7 @@ class VehicleControllerTest {
     }
 
     @Test
-    public void getVehicleById_WithValidId_ReturnsVehicle() {
+    public void getVehicleById_WithValidId() {
         // Arrange
         Long vehicleId = 1L;
         VehicleEntity vehicle = new VehicleEntity( "Vehicle 1", "Brand 1", "Plate 1", "Color 1", "4");
@@ -79,7 +79,7 @@ class VehicleControllerTest {
     }
 
     @Test
-    public void getVehicleById_WithInvalidId_ThrowsResourceNotFoundException() {
+    public void getVehicleById_WithInvalidId() {
         // Arrange
         Long vehicleId = 1L;
         when(vehicleRepository.findById(vehicleId)).thenReturn(Optional.empty());
@@ -90,7 +90,7 @@ class VehicleControllerTest {
     }
 
     @Test
-    public void updateVehicle_WithValidId_ReturnsUpdatedVehicle() {
+    public void updateVehicle_WithValidId() {
         // Arrange
         Long vehicleId = 1L;
         VehicleEntity existingVehicle = new VehicleEntity( "Vehicle 1", "Brand 1", "Plate 1", "Color 1", "4");
@@ -109,7 +109,7 @@ class VehicleControllerTest {
     }
 
     @Test
-    public void updateVehicle_WithInvalidId_ThrowsResourceNotFoundException() {
+    public void updateVehicle_WithInvalidId() {
         // Arrange
         Long vehicleId = 1L;
         VehicleEntity updatedVehicle = new VehicleEntity( "Updated Vehicle", "Updated Brand", "Updated Plate", "Updated Color", "2");
@@ -122,7 +122,7 @@ class VehicleControllerTest {
     }
 
     @Test
-    public void deleteVehicle_WithValidId_ReturnsDeletionConfirmation() {
+    public void deleteVehicle_WithValidId() {
         // Arrange
         Long vehicleId = 1L;
         VehicleEntity vehicle = new VehicleEntity("Vehicle 1", "Brand 1", "Plate 1", "Color 1", "4");
@@ -139,7 +139,7 @@ class VehicleControllerTest {
     }
 
     @Test
-    public void deleteVehicle_WithInvalidId_ThrowsResourceNotFoundException() {
+    public void deleteVehicle_WithInvalidId() {
         // Arrange
         Long vehicleId = 1L;
         when(vehicleRepository.findById(vehicleId)).thenReturn(Optional.empty());
