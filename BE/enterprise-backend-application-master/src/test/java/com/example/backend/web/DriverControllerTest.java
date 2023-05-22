@@ -20,7 +20,7 @@ import java.util.Optional;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
-class DriverControllerTest {
+public class DriverControllerTest {
 
     @Mock
     private DriverRepository driverRepository;
@@ -29,12 +29,12 @@ class DriverControllerTest {
     private DriverController driverController;
 
     @BeforeEach
-    void setUp() {
+    public void setUp() {
         MockitoAnnotations.initMocks(this);
     }
 
     @Test
-    void testGetAllDrivers() {
+    public void testGetAllDrivers() {
         // Arrange
         List<DriverEntity> drivers = new ArrayList<>();
         drivers.add(new DriverEntity());
@@ -49,7 +49,7 @@ class DriverControllerTest {
     }
 
     @Test
-    void testCreateDriver() {
+    public void testCreateDriver() {
         // Arrange
         DriverEntity driver = new DriverEntity();
         when(driverRepository.save(driver)).thenReturn(driver);
@@ -63,7 +63,7 @@ class DriverControllerTest {
     }
 
     @Test
-    void testGetDriverById_ValidId() {
+    public void testGetDriverById_ValidId() {
         // Arrange
         long id = 1L;
         DriverEntity driver = new DriverEntity();
@@ -79,7 +79,7 @@ class DriverControllerTest {
     }
 
     @Test
-    void testGetDriverById_InvalidId() {
+    public void testGetDriverById_InvalidId() {
         // Arrange
         long id = 1L;
         when(driverRepository.findById(id)).thenReturn(Optional.empty());
@@ -92,7 +92,7 @@ class DriverControllerTest {
     }
 
     @Test
-    void testUpdateDriver() {
+    public void testUpdateDriver() {
         // Arrange
         long id = 1L;
         DriverEntity existingDriver = new DriverEntity();
@@ -118,7 +118,7 @@ class DriverControllerTest {
     }
 
     @Test
-    void testUpdateDriver_InvalidId() {
+    public void testUpdateDriver_InvalidId() {
         // Arrange
         long id = 1L;
         DriverEntity updatedDriver = new DriverEntity();
@@ -133,7 +133,7 @@ class DriverControllerTest {
     }
 
     @Test
-    void testDeleteDriver() {
+    public void testDeleteDriver() {
         // Arrange
         long id = 1L;
         DriverEntity driver = new DriverEntity();
@@ -153,7 +153,7 @@ class DriverControllerTest {
     }
 
     @Test
-    void testDeleteDriver_InvalidId() {
+    public void testDeleteDriver_InvalidId() {
         // Arrange
         long id = 1L;
         when(driverRepository.findById(id)).thenReturn(Optional.empty());
